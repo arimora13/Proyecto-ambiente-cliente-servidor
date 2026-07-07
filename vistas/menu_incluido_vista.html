@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-success mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="<?php echo BASE_URL; ?>/menu.php">🌱 Huertica</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <?php foreach ($menuBase as $item): ?>
+                    <?php if (in_array($rolActual, $item['roles'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo $item['url']; ?>"><?php echo $item['texto']; ?></a>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+            <span class="navbar-text text-white me-3">
+                <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo htmlspecialchars($rolActual); ?>)
+            </span>
+            <a href="<?php echo BASE_URL; ?>/logout.php" class="btn btn-outline-light btn-sm">Salir</a>
+        </div>
+    </div>
+</nav>

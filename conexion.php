@@ -1,17 +1,25 @@
 <?php
 // conexion.php
-// Conexion unica a la base de datos SQL Server "Huertica" usando PDO + driver sqlsrv.
+// Conexion unica a la base de datos MySQL "Huertica" usando PDO.
 // Todos los demas archivos incluyen este archivo primero.
 
 session_start();
 
-$servidor   = "localhost";      // Nombre o IP del servidor SQL Server
+// Ruta base del proyecto dentro de htdocs, calculada automaticamente
+// comparando la carpeta de este archivo contra la raiz del servidor web.
+// No hay que tocar esto nunca, sin importar como se llame la carpeta
+// del proyecto ni en que subcarpeta de htdocs este.
+$raizServidor = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
+$raizProyecto = str_replace('\\', '/', __DIR__);
+define('BASE_URL', substr($raizProyecto, strlen($raizServidor)));
+
+$servidor   = "localhost";      // Nombre o IP del servidor MySQL
 $baseDatos  = "Huertica";
-$usuarioBD  = "sa";             // Cambiar por el usuario real
-$claveBD    = "TU_PASSWORD";    // Cambiar por la clave real
+$usuarioBD  = "root";           // Cambiar por el usuario real
+$claveBD    = "";               // Cambiar por la clave real
 
 try {
-    $conexion = new PDO("sqlsrv:Server=$servidor;Database=$baseDatos", $usuarioBD, $claveBD);
+    $conexion = new PDO("mysql:host=$servidor;dbname=$baseDatos;charset=utf8mb4", $usuarioBD, $claveBD);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $error) {
     die("Error de conexion a la base de datos: " . $error->getMessage());
@@ -20,7 +28,7 @@ try {
 // Funcion para validar que exista sesion activa. Se usa en todas las paginas internas.
 function validarSesion() {
     if (!isset($_SESSION['id_usuario'])) {
-        header("Location: /login.php");
+        header("Location: " . BASE_URL . "/login.php");
         exit;
     }
 }
@@ -28,7 +36,7 @@ function validarSesion() {
 // Funcion para validar que el rol de la sesion tenga permiso de acceso a un modulo.
 function validarRol($rolesPermitidos) {
     if (!in_array($_SESSION['nombre_rol'], $rolesPermitidos)) {
-        echo "<script>alert('No tiene permisos para acceder a este modulo.'); window.location='/menu.php';</script>";
+        echo "<script>alert('No tiene permisos para acceder a este modulo.'); window.location='" . BASE_URL . "/menu.php';</script>";
         exit;
     }
 }
