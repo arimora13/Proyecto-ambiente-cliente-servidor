@@ -22,6 +22,10 @@ $menuBase = [
     ["texto" => "Alertas",          "url" => "alertas/listar.php",          "roles" => ["Administrador","Docente"]],
     ["texto" => "Reportes",         "url" => "reportes/listar.php",         "roles" => ["Administrador","Docente"]],
     ["texto" => "Usuarios",         "url" => "usuarios/listar.php",         "roles" => ["Administrador"]],
+    ["texto" => "Huertas",          "url" => "huertas/listar.php",          "roles" => ["Administrador"]],
+    ["texto" => "Grupos",           "url" => "grupos/listar.php",           "roles" => ["Administrador"]],
+    ["texto" => "Cultivos",         "url" => "cultivos/listar.php",         "roles" => ["Administrador","Docente","Estudiante"]],
+    ["texto" => "Tipos de cultivo", "url" => "tipos_cultivo/listar.php",    "roles" => ["Administrador","Docente","Estudiante"]],
 ];
 
 include(__DIR__ . "/vistas/menu_vista.html");

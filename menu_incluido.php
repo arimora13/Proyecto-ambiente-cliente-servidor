@@ -14,6 +14,10 @@ $menuBase = [
     ["texto" => "Alertas",          "url" => BASE_URL . "/alertas/listar.php",         "roles" => ["Administrador","Docente"]],
     ["texto" => "Reportes",         "url" => BASE_URL . "/reportes/listar.php",        "roles" => ["Administrador","Docente"]],
     ["texto" => "Usuarios",         "url" => BASE_URL . "/usuarios/listar.php",        "roles" => ["Administrador"]],
+    ["texto" => "Huertas",          "url" => BASE_URL . "/huertas/listar.php",         "roles" => ["Administrador"]],
+    ["texto" => "Grupos",           "url" => BASE_URL . "/grupos/listar.php",          "roles" => ["Administrador"]],
+    ["texto" => "Cultivos",         "url" => BASE_URL . "/cultivos/listar.php",        "roles" => ["Administrador","Docente","Estudiante"]],
+    ["texto" => "Tipos de cultivo", "url" => BASE_URL . "/tipos_cultivo/listar.php",   "roles" => ["Administrador","Docente","Estudiante"]],
 ];
 
 include(__DIR__ . "/vistas/menu_incluido_vista.html");
