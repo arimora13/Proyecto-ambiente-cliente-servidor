@@ -42,3 +42,30 @@ table.table thead {
     padding: 20px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
+
+.hero-huertica {
+    background: linear-gradient(135deg, #2e7d32, #66bb6a);
+    color: white;
+    border-radius: 0 0 16px 16px;
+}
+
+.tarjeta-stat {
+    border-radius: 12px;
+    transition: transform 0.15s ease;
+}
+
+.tarjeta-stat:hover {
+    transform: translateY(-4px);
+}
+
+.dato-mep {
+    border-radius: 10px;
+    border-left: 4px solid #2e7d32;
+    background: white;
+}
+
+.consejo {
+    border-radius: 10px;
+    background: #f9fdf9;
+    border: 1px solid #e0eee0;
+}
