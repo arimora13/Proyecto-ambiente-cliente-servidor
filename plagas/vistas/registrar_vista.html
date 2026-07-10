@@ -17,8 +17,7 @@
                 <label class="form-label">Cultivo</label>
                 <select class="form-select" id="idCultivo" name="idCultivo" required>
                     <?php foreach ($listaCultivos as $c): ?>
-                        <option value="<?php echo $c['ID_CULTIVO']; ?>">Cultivo #<?php echo $c['ID_CULTIVO']; ?></option>
-                    <?php endforeach; ?>
+                        <option value="<?php echo $c['ID_CULTIVO']; ?>"><?php echo htmlspecialchars($c['NOMBRE_TIPO'] . ' - ' . $c['NOMBRE_HUERTA']) . ' (#' . $c['ID_CULTIVO'] . ')'; ?></option>
                 </select>
             </div>
             <div class="mb-3">

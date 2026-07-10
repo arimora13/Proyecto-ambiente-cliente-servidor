@@ -39,32 +39,115 @@
 <div class="container mt-2">
     <h4 class="mb-3">Panel general</h4>
     <div class="row g-3">
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="card tarjeta-stat text-bg-success p-3 text-center">
                 <i class="bi bi-people-fill fs-2 mb-2"></i>
                 <h2><?php echo $totalUsuarios; ?></h2>
                 <p class="mb-0">Usuarios</p>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="card tarjeta-stat text-bg-primary p-3 text-center">
                 <i class="bi bi-flower1 fs-2 mb-2"></i>
                 <h2><?php echo $totalCultivos; ?></h2>
                 <p class="mb-0">Cultivos</p>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="card tarjeta-stat text-bg-info p-3 text-center">
                 <i class="bi bi-geo-alt-fill fs-2 mb-2"></i>
                 <h2><?php echo $totalHuertas; ?></h2>
                 <p class="mb-0">Huertas</p>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="card tarjeta-stat text-bg-warning p-3 text-center">
                 <i class="bi bi-exclamation-triangle-fill fs-2 mb-2"></i>
                 <h2><?php echo $alertasPendientes; ?></h2>
                 <p class="mb-0">Alertas pendientes</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card tarjeta-stat text-bg-secondary p-3 text-center">
+                <i class="bi bi-mortarboard-fill fs-2 mb-2"></i>
+                <h2><?php echo $totalEscuelas; ?></h2>
+                <p class="mb-0">Escuelas</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card tarjeta-stat text-bg-dark p-3 text-center">
+                <i class="bi bi-people fs-2 mb-2"></i>
+                <h2><?php echo $totalGrupos; ?></h2>
+                <p class="mb-0">Grupos</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card tarjeta-stat text-bg-primary p-3 text-center">
+                <i class="bi bi-droplet-fill fs-2 mb-2"></i>
+                <h2><?php echo $riegosHoy; ?></h2>
+                <p class="mb-0">Riegos hoy</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graficos -->
+    <div class="row g-3 mt-4">
+        <div class="col-md-6">
+            <div class="card p-3 h-100">
+                <h6 class="mb-3">Cultivos por estado</h6>
+                <canvas id="graficoEstados" height="220"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3 h-100">
+                <h6 class="mb-3">Actividades registradas (ultimos 6 meses)</h6>
+                <canvas id="graficoActividad" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Listas de actividad reciente -->
+    <div class="row g-3 mt-4 mb-4">
+        <div class="col-md-6">
+            <div class="card p-3 h-100">
+                <h6 class="mb-3"><i class="bi bi-clock-history text-primary"></i> Ultimas actividades</h6>
+                <?php if (empty($ultimasActividades)): ?>
+                    <p class="text-muted small mb-0">Sin actividades registradas todavia.</p>
+                <?php else: ?>
+                    <ul class="list-group list-group-flush">
+                        <?php foreach ($ultimasActividades as $act): ?>
+                        <li class="list-group-item px-0">
+                            <strong><?php echo htmlspecialchars($act['NOMBRE_ACTIVIDAD']); ?></strong>
+                            en <?php echo htmlspecialchars($act['NOMBRE_CULTIVO'] ?? 'Cultivo eliminado'); ?>
+                            <span class="text-muted small d-block">
+                                <?php echo $act['FECHA_ACTIVIDAD']; ?> · <?php echo htmlspecialchars($act['RESPONSABLE'] ?? 'Sin responsable'); ?>
+                            </span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3 h-100">
+                <h6 class="mb-3"><i class="bi bi-bell-fill text-warning"></i> Alertas recientes</h6>
+                <?php if (empty($alertasRecientes)): ?>
+                    <p class="text-muted small mb-0">Sin alertas registradas todavia.</p>
+                <?php else: ?>
+                    <ul class="list-group list-group-flush">
+                        <?php foreach ($alertasRecientes as $al): ?>
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                            <span>
+                                <?php echo htmlspecialchars($al['DESCRIPCION']); ?>
+                                <span class="text-muted small d-block"><?php echo htmlspecialchars($al['NOMBRE_ACTIVIDAD'] ?? ''); ?></span>
+                            </span>
+                            <span class="badge <?php echo ($al['NOMBRE_ESTADO'] == 'Pendiente') ? 'text-bg-warning' : 'text-bg-success'; ?>">
+                                <?php echo htmlspecialchars($al['NOMBRE_ESTADO']); ?>
+                            </span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -130,5 +213,36 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Grafico: cultivos por estado (pastel)
+const datosEstados = <?php echo json_encode($cultivosPorEstado); ?>;
+new Chart(document.getElementById('graficoEstados'), {
+    type: 'pie',
+    data: {
+        labels: datosEstados.map(d => d.NOMBRE_ESTADO ?? 'Sin estado'),
+        datasets: [{
+            data: datosEstados.map(d => d.TOTAL),
+            backgroundColor: ['#2e7d32', '#66bb6a', '#ffb74d', '#e57373', '#64b5f6', '#ba68c8']
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// Grafico: actividad por mes (barras)
+const datosActividad = <?php echo json_encode($actividadPorMes); ?>;
+new Chart(document.getElementById('graficoActividad'), {
+    type: 'bar',
+    data: {
+        labels: datosActividad.map(d => d.MES),
+        datasets: [{
+            label: 'Actividades',
+            data: datosActividad.map(d => d.TOTAL),
+            backgroundColor: '#2e7d32'
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+});
+</script>
 </body>
 </html>
