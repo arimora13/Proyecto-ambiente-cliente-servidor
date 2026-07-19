@@ -19,7 +19,7 @@ CREATE TABLE ESTADO (
     NOMBRE_ESTADO	VARCHAR(30),
     PRIMARY KEY(ID_ESTADO)
 );
--- estado esta conectado a la mayoria de las tablas, esto se explica mas ampliamiente al pie de cada tabla
+-- estado esta conectado a varias tablas, esto se explica mas ampliamiente al pie de cada tabla
 
 CREATE TABLE USUARIO (
 	ID_USUARIO 			INT AUTO_INCREMENT,
@@ -28,13 +28,13 @@ CREATE TABLE USUARIO (
     NOMBRE 				VARCHAR(50),
     APELLIDO_PATERNO 	VARCHAR(50),
     APELLIDO_MATERNO 	VARCHAR(50),
-    CONTRASENA 			VARCHAR(100),
+    CONTRASENA 			INT,
     CORREO 				VARCHAR(120),
     PRIMARY KEY (ID_USUARIO),
     CONSTRAINT FK_USUARIO_ROL FOREIGN KEY(ID_ROL) REFERENCES ROL(ID_ROL),
     CONSTRAINT FK_USUARIO_ESTADO FOREIGN KEY(ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
--- datos minimos para el usuario, estado (activo, inactivo) y un rol 
+-- datos minimos para el usuario, estado (activo, inactivo) y un rol para su asignacion de permisos. posee nombre y apellidos
 
 CREATE TABLE PROVINCIA(	
 	ID_PROVINCIA 		INT auto_increment,
@@ -79,10 +79,10 @@ CREATE TABLE INSTITUCION (
 CREATE TABLE TELEFONO (
 	ID_INSTITUCION 		INT,
     TELEFONO 			VARCHAR(9),
-    PRIMARY KEY(ID_INSTITUCION, TELEFONO),
+    PRIMARY KEY(ID_INSTITUCION),
     CONSTRAINT FK_TELEFONO_INSTITUCION FOREIGN KEY (ID_INSTITUCION) REFERENCES INSTITUCION(ID_INSTITUCION)
 );
--- lo ideal es crear una llave compuesta para permitir que una institucion contenga varios telefonos
+-- almacena los telefonos de las instituciones
 
 CREATE TABLE HUERTA(
 	ID_HUERTA 			INT AUTO_INCREMENT,
@@ -123,11 +123,10 @@ CREATE TABLE GRUPO_ESTUDIANTIL(
 CREATE TABLE INTEGRANTES_GRUPOS(
 	ID_USUARIO 		INT,
     ID_GRUPO		INT,
-    PRIMARY KEY(ID_USUARIO, ID_GRUPO),
 	CONSTRAINT FK_INTEGRANTES_GRUPOS_USUARIO FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_USUARIO),
 	CONSTRAINT FK_INTEGRANTES_GRUPOS_GRUPO FOREIGN KEY(ID_GRUPO) REFERENCES GRUPO_ESTUDIANTIL(ID_GRUPO)
 );
--- cada grupo se conforma de varios estudiantes, por lo que se crea una tabla intermedia que contiene una llave compuesta.
+-- cada grupo se conforma de varios estudiantes.
 
 CREATE TABLE TIPO_CULTIVO(
 	ID_TIPO_CULTIVO 	INT AUTO_INCREMENT,
@@ -208,9 +207,9 @@ SELECT * FROM DISTRITO;
 INSERT INTO ROL (NOMBRE_ROL) VALUES ('Administrador'), ('Docente'), ('Estudiante');
 SELECT * FROM ROL;
 
-INSERT INTO USUARIO(ID_ROL, ID_ESTADO, NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, CONTRASENA, CORREO) 
-VALUES (1, 1, 'Ariel', 'Barrantes', 'Robles', MD5('admin123'), 'admin@huertica.com');
-SELECT * FROM USUARIO;
+UPDATE USUARIO
+SET CONTRASENA = MD5('admin123')
+WHERE CORREO = 'admin@huertica.com';
 
 INSERT INTO TIPO_CULTIVO(NOMBRE, NOMBRE_CIENTIFICO, TIEMPO_COSECHA, FRECUENCIA_RIEGO, FRECUENCIA_FERTILIZACION, OBSERVACIONES) VALUES
 ('Lechuga', 'Lactuca sativa', 60, 'Diario', 'Cada 15 días', 'Requiere suelo húmedo y buen drenaje.'),
