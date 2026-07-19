@@ -3,6 +3,7 @@
 
 DROP DATABASE IF EXISTS Huertica;
 CREATE DATABASE Huertica;
+USE Huertica;
 
 -- CREACION DE LAS TABLAS;
 
@@ -11,12 +12,14 @@ CREATE TABLE ROL (
     NOMBRE_ROL 		VARCHAR(30),
     PRIMARY KEY(ID_ROL)
 );
+-- tabla de rol para docente, estudiante, administrador 
 
 CREATE TABLE ESTADO (
 	ID_ESTADO 		INT AUTO_INCREMENT,
     NOMBRE_ESTADO	VARCHAR(30),
     PRIMARY KEY(ID_ESTADO)
 );
+-- estado esta conectado a la mayoria de las tablas, esto se explica mas ampliamiente al pie de cada tabla
 
 CREATE TABLE USUARIO (
 	ID_USUARIO 			INT AUTO_INCREMENT,
@@ -25,12 +28,13 @@ CREATE TABLE USUARIO (
     NOMBRE 				VARCHAR(50),
     APELLIDO_PATERNO 	VARCHAR(50),
     APELLIDO_MATERNO 	VARCHAR(50),
-    CONTRASENA 			INT,
+    CONTRASENA 			VARCHAR(100),
     CORREO 				VARCHAR(120),
     PRIMARY KEY (ID_USUARIO),
     CONSTRAINT FK_USUARIO_ROL FOREIGN KEY(ID_ROL) REFERENCES ROL(ID_ROL),
     CONSTRAINT FK_USUARIO_ESTADO FOREIGN KEY(ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
+-- datos minimos para el usuario, estado (activo, inactivo) y un rol 
 
 CREATE TABLE PROVINCIA(	
 	ID_PROVINCIA 		INT auto_increment,
@@ -61,21 +65,24 @@ CREATE TABLE DIRECCION(
     CONSTRAINT FK_DIRECCION_CANTON FOREIGN KEY (ID_CANTON) REFERENCES CANTON(ID_CANTON),
     CONSTRAINT FK_DIRECCION_DISTRITO FOREIGN KEY (ID_DISTRITO) REFERENCES DISTRITO(ID_DISTRITO)
 );
+-- la direccion se compone de varias llaves foraneas para evitar errores de datos o direcciones duplicadas
 
 CREATE TABLE INSTITUCION (
 	ID_INSTITUCION 		INT AUTO_INCREMENT,
     ID_DIRECCION 		INT,
     NOMBRE				VARCHAR(100),
     PRIMARY KEY (ID_INSTITUCION),
-    CONSTRAINT FK_INSTITUCION_DIRECCION FOREIGN KEY (ID_DIRECCIOON) REFERENCES DIRECCION(ID_DIRECCION)
-);
+    CONSTRAINT FK_INSTITUCION_DIRECCION FOREIGN KEY (ID_DIRECCION) REFERENCES DIRECCION(ID_DIRECCION)
+); 
+-- institucion unicamente cuenta con una llave foranea para su direccion unica
 
 CREATE TABLE TELEFONO (
 	ID_INSTITUCION 		INT,
     TELEFONO 			VARCHAR(9),
-    PRIMARY KEY(ID_INSTITUCION),
-    CONSTRAINT FK_TELEFONO_INSTITUCION FOREIGN KEY (ID_INSTITUCION) REFERENCES TELEFONO(ID_INSTUTUCION)
+    PRIMARY KEY(ID_INSTITUCION, TELEFONO),
+    CONSTRAINT FK_TELEFONO_INSTITUCION FOREIGN KEY (ID_INSTITUCION) REFERENCES INSTITUCION(ID_INSTITUCION)
 );
+-- lo ideal es crear una llave compuesta para permitir que una institucion contenga varios telefonos
 
 CREATE TABLE HUERTA(
 	ID_HUERTA 			INT AUTO_INCREMENT,
@@ -88,6 +95,7 @@ CREATE TABLE HUERTA(
     CONSTRAINT FK_HUERTA_INSTITUCION FOREIGN KEY (ID_INSTITUCION) REFERENCES INSTITUCION(ID_INSTITUCION),
     CONSTRAINT FK_HUERTA_ESTADO FOREIGN KEY (ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
+-- una huerta esta asociada a una institucion y a un estado (activa, inactiva)
 
 CREATE TABLE REPORTE(
 	ID_REPORTE		INT AUTO_INCREMENT,
@@ -98,6 +106,7 @@ CREATE TABLE REPORTE(
     PRIMARY KEY(ID_REPORTE),
     CONSTRAINT FK_REPORTE_HUERTA FOREIGN KEY(ID_HUERTA) REFERENCES HUERTA(ID_HUERTA)
 );
+-- el reporte que debe de estar dirigido hacia el mep, solo se asocia a la huerta, pues esta huerta ya tendra la informacion de la institucion.
 
 CREATE TABLE GRUPO_ESTUDIANTIL(
 	ID_GRUPO		 	   INT AUTO_INCREMENT,
@@ -109,13 +118,16 @@ CREATE TABLE GRUPO_ESTUDIANTIL(
     PRIMARY KEY(ID_GRUPO),
     CONSTRAINT FK_GRUPO_ESTUDIANTIL_DOCENTE FOREIGN KEY (ID_DOCENTE_RESPONSABLE) REFERENCES USUARIO(ID_USUARIO)
 );
+-- los grupos estudiantiles cuentan con un id, un docente responsable y datos necesarias como su grado (1-6) y seccion (1, 2, 3 o a, b, c...)
 
 CREATE TABLE INTEGRANTES_GRUPOS(
 	ID_USUARIO 		INT,
     ID_GRUPO		INT,
+    PRIMARY KEY(ID_USUARIO, ID_GRUPO),
 	CONSTRAINT FK_INTEGRANTES_GRUPOS_USUARIO FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_USUARIO),
-	CONSTRAINT FK_INTEGRANTES_GRUPOS_GRUPO FOREIGN KEY(ID_GRUPO) REFERENCES INTEGRANTES_GRUPOS(ID_GRUPO)
+	CONSTRAINT FK_INTEGRANTES_GRUPOS_GRUPO FOREIGN KEY(ID_GRUPO) REFERENCES GRUPO_ESTUDIANTIL(ID_GRUPO)
 );
+-- cada grupo se conforma de varios estudiantes, por lo que se crea una tabla intermedia que contiene una llave compuesta.
 
 CREATE TABLE TIPO_CULTIVO(
 	ID_TIPO_CULTIVO 	INT AUTO_INCREMENT,
@@ -127,6 +139,7 @@ CREATE TABLE TIPO_CULTIVO(
     OBSERVACIONES 		VARCHAR(200),
     PRIMARY KEY(ID_TIPO_CULTIVO)
 );
+-- el tipo de cultivo es lo que se cultivara, tomates, pepinos, lechuga
 
 CREATE TABLE CULTIVO(
 	ID_CULTIVO			INT AUTO_INCREMENT,
@@ -142,12 +155,15 @@ CREATE TABLE CULTIVO(
     CONSTRAINT FK_CULTIVO_GRUPO_ESTUDIANTIL FOREIGN KEY(ID_GRUPO) REFERENCES GRUPO_ESTUDIANTIL(ID_GRUPO),
     CONSTRAINT FK_CULTIVO_ESTADO FOREIGN KEY(ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
+-- luego el cultivo es un espacio donde se debe de almacenar un solo tipo de cultivo, puesto a que lechugas no pueden mezclarse con tomates, serian como los lotes
+-- estado (activi, inactivo, fallecido), pertenece a un solo grupo y se encuentra dentro de una huerta
 
 CREATE TABLE TIPO_ACTIVIDAD(
 	ID_TIPO_ACTIVIDAD 		INT AUTO_INCREMENT,
     NOMBRE_ACTIVIDAD 			VARCHAR(50),
     PRIMARY KEY(ID_TIPO_ACTIVIDAD)
 );
+-- almacenas las actividades como riegos, siembras, fertilizacion, etc. se crea con el objetivo de normalizacion y evitar datos duplicados o extra
 
 CREATE TABLE ACTIVIDAD(
 	ID_ACTIVIDAD 		INT AUTO_INCREMENT,
@@ -161,6 +177,7 @@ CREATE TABLE ACTIVIDAD(
     CONSTRAINT FK_ACTIVIDAD_USUARIO FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID_USUARIO),
     CONSTRAINT FK_ACTIVIDAD_TIPO FOREIGN KEY(ID_TIPO_ACTIVIDAD) REFERENCES TIPO_ACTIVIDAD(ID_TIPO_ACTIVIDAD)
 );
+-- el tipo de actividad que realiza cada grupo (se le asigna la actividad al profesor encargado)
 
 CREATE TABLE ALERTA(
 	ID_ALERTA 			INT AUTO_INCREMENT,
@@ -169,9 +186,47 @@ CREATE TABLE ALERTA(
     ID_ESTADO 			INT,
     PRIMARY KEY(ID_ALERTA),
     CONSTRAINT FK_ALERTA_CULTIVO FOREIGN KEY(ID_CULTIVO) REFERENCES CULTIVO(ID_CULTIVO),
-    CONSTRAINT FK_ALERTA_USUARIO FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID_USUARIO),
+    CONSTRAINT FK_ALERTA_TIPO_ACTIVIDAD FOREIGN KEY(ID_TIPO_ACTIVIDAD) REFERENCES TIPO_ACTIVIDAD(ID_TIPO_ACTIVIDAD),
     CONSTRAINT FK_ALERTA_ESTADO FOREIGN KEY(ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
+-- estado (cumplido, perdido, pendiente, reprogramado), se asocia a un cultivo y a un tipo de actividad.
+
+-- INSERTAR DATOS EN LAS TABLAS
+
+INSERT INTO ESTADO(NOMBRE_ESTADO) VALUES ('Activo'), ('Inactiva'), ('pendiente'), ('reprogramada'), ('cumplida');
+SELECT * FROM ESTADO;
+
+INSERT INTO PROVINCIA (NOMBRE_PROVINCIA) VALUES ('San José'), ('Alajuela'), ('Cartago'), ('Heredia'), ('Guanacaste'), ('Puntarenas'), ('Limón');
+SELECT * FROM PROVINCIA;
+
+INSERT INTO CANTON (NOMBRE_CANTON) VALUES ('San José Centro'), ('Curridabat'), ('Escazú');
+SELECT * FROM CANTON;
+
+INSERT INTO DISTRITO (NOMBRE_DISTRITO) VALUES ('Carmen'), ('Merced'), ('Hospital');
+SELECT * FROM DISTRITO;
+
+INSERT INTO ROL (NOMBRE_ROL) VALUES ('Administrador'), ('Docente'), ('Estudiante');
+SELECT * FROM ROL;
+
+INSERT INTO USUARIO(ID_ROL, ID_ESTADO, NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, CONTRASENA, CORREO) 
+VALUES (1, 1, 'Ariel', 'Barrantes', 'Robles', MD5('admin123'), 'admin@huertica.com');
+SELECT * FROM USUARIO;
+
+INSERT INTO TIPO_CULTIVO(NOMBRE, NOMBRE_CIENTIFICO, TIEMPO_COSECHA, FRECUENCIA_RIEGO, FRECUENCIA_FERTILIZACION, OBSERVACIONES) VALUES
+('Lechuga', 'Lactuca sativa', 60, 'Diario', 'Cada 15 días', 'Requiere suelo húmedo y buen drenaje.'),
+('Tomate', 'Solanum lycopersicum', 90, 'Cada 2 días', 'Cada 15 días', 'Necesita tutorado y exposición directa al sol.'),
+('Zanahoria', 'Daucus carota', 80, 'Cada 2 días', 'Cada 20 días', 'Prefiere suelos sueltos y profundos.'),
+('Culantro', 'Eryngium foetidum', 70, 'Diario', 'Cada 30 días','Crece mejor en zonas con sombra parcial.'),
+('Chile dulce', 'Capsicum annuum', 100, 'Cada 2 días', 'Cada 15 días', 'Evitar el exceso de agua para prevenir enfermedades.');
+SELECT * FROM TIPO_CULTIVO;
+ 
+
+
+
+
+
+
+
 
 
 
