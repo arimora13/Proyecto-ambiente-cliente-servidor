@@ -8,7 +8,8 @@ class Cultivo {
         $this->conexion = $conexion;
     }
 
-    // CREATE
+    // CRUD - CREATE
+    //SE REGISTRA INGRESANDO TODOS LOS PARAMETROS
     public function guardar($idHuerta, $idTipoCultivo, $idGrupo, $idEstado, $fechaSiembra, $cantidad) {
         $sql = "INSERT INTO CULTIVO (ID_HUERTA, ID_TIPO_CULTIVO, ID_GRUPO, ID_ESTADO, FECHA_SIEMBRA, CANTIDAD)
                 VALUES (?, ?, ?, ?, ?, ?)";
@@ -17,6 +18,7 @@ class Cultivo {
     }
 
     // UPDATE
+    //SE PUEDEN MODIFICAR TODOS SI ES NECESARIO
     public function editar($id, $idHuerta, $idTipoCultivo, $idGrupo, $idEstado, $fechaSiembra, $cantidad) {
         $sql = "UPDATE CULTIVO
                 SET ID_HUERTA = ?, ID_TIPO_CULTIVO = ?, ID_GRUPO = ?, ID_ESTADO = ?, FECHA_SIEMBRA = ?, CANTIDAD = ?
@@ -26,13 +28,14 @@ class Cultivo {
     }
 
     // DELETE
+    //se elimina unicamente por id
     public function eliminar($id) {
         $sql = "DELETE FROM CULTIVO WHERE ID_CULTIVO = ?";
         $stmt = $this->conexion->prepare($sql);
         return $stmt->execute([$id]);
     }
 
-    // SELECT todos
+    // SELECT todos implementando left join.
     public function listar() {
         $sql = "SELECT C.ID_CULTIVO, C.FECHA_SIEMBRA, C.CANTIDAD,
                        H.NOMBRE AS NOMBRE_HUERTA, T.NOMBRE AS NOMBRE_TIPO,

@@ -1,10 +1,13 @@
 <?php
-require_once("../conexion.php");
-validarSesion();
-validarRol(["Administrador","Docente"]);
-require_once("../clases/Alerta.php");
+//inicio del php
 
-$alertaObj = new Alerta($conexion);
-$lista = $alertaObj->listar();
+require_once("../conexion.php");//carga la conexion con bd
+validarSesion(); //verifica la sesion iniciada
+validarRol(["Administrador","Docente"]); //verifica el rol
+require_once("../clases/Alerta.php"); // carga la clase de alerta
 
-include(__DIR__ . "/vistas/listar_vista.html");
+$alertaObj = new Alerta($conexion); //crea un objeto
+$lista = $alertaObj->listar(); //lista el objeto
+
+
+include(__DIR__ . "/vista/listar") //carga la vista de la lista

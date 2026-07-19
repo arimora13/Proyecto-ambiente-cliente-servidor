@@ -17,12 +17,14 @@ CREATE TABLE ROL (
     ID_ROL      INT AUTO_INCREMENT PRIMARY KEY,
     NOMBRE_ROL  VARCHAR(30)
 );
+--contiene roles como administrador, docente, estudiante
 
 -- ==================== ESTADO ====================
 CREATE TABLE ESTADO (
     ID_ESTADO      INT AUTO_INCREMENT PRIMARY KEY,
     NOMBRE_ESTADO  VARCHAR(30)
 );
+--estados utilizados en mas de una tabla, se explica mas detalladamente en cada tabla
 
 -- ==================== USUARIO ====================
 CREATE TABLE USUARIO (
@@ -37,6 +39,7 @@ CREATE TABLE USUARIO (
     CONSTRAINT FK_USUARIO_ROL FOREIGN KEY(ID_ROL) REFERENCES ROL(ID_ROL),
     CONSTRAINT FK_USUARIO_ESTADO FOREIGN KEY(ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
+--estado(activo, inactivo), un usuario posee un solo rol (asi administrar permisos)
 
 -- ==================== PROVINCIA / CANTON / DISTRITO ====================
 CREATE TABLE PROVINCIA(
@@ -65,6 +68,7 @@ CREATE TABLE DIRECCION(
     CONSTRAINT FK_DIRECCION_CANTON FOREIGN KEY (ID_CANTON) REFERENCES CANTON(ID_CANTON),
     CONSTRAINT FK_DIRECCION_DISTRITO FOREIGN KEY (ID_DISTRITO) REFERENCES DISTRITO(ID_DISTRITO)
 );
+--compuesto mayormente por foreign keys, permitiendo direcciones parecidas.
 
 -- ==================== INSTITUCION ====================
 CREATE TABLE INSTITUCION (
@@ -73,6 +77,7 @@ CREATE TABLE INSTITUCION (
     NOMBRE          VARCHAR(100),
     CONSTRAINT FK_INSTITUCION_DIRECCION FOREIGN KEY (ID_DIRECCION) REFERENCES DIRECCION(ID_DIRECCION) -- FIX: typo ID_DIRECCIOON
 );
+--se compone de pocos atributos(no se ven necesarios mas)
 
 -- ==================== TELEFONO ====================
 CREATE TABLE TELEFONO (
@@ -92,6 +97,7 @@ CREATE TABLE HUERTA(
     CONSTRAINT FK_HUERTA_INSTITUCION FOREIGN KEY (ID_INSTITUCION) REFERENCES INSTITUCION(ID_INSTITUCION),
     CONSTRAINT FK_HUERTA_ESTADO FOREIGN KEY (ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
+--espacio de huerta en la institucion, estado (inactivo, activo)
 
 -- ==================== REPORTE ====================
 CREATE TABLE REPORTE(
@@ -102,6 +108,7 @@ CREATE TABLE REPORTE(
     DESCRIPCION  VARCHAR(500),
     CONSTRAINT FK_REPORTE_HUERTA FOREIGN KEY(ID_HUERTA) REFERENCES HUERTA(ID_HUERTA)
 );
+--reporte dirigido al MEP, fecha del reporte, periodo del anyo, descripcion detallada.
 
 -- ==================== GRUPO_ESTUDIANTIL ====================
 CREATE TABLE GRUPO_ESTUDIANTIL(
@@ -113,6 +120,7 @@ CREATE TABLE GRUPO_ESTUDIANTIL(
     ANYO                    VARCHAR(4),
     CONSTRAINT FK_GRUPO_ESTUDIANTIL_DOCENTE FOREIGN KEY (ID_DOCENTE_RESPONSABLE) REFERENCES USUARIO(ID_USUARIO)
 );
+--los grupos estudiantiles cuentan con un id, un docente responsable y datos necesarias como su grado (1-6) y seccion (1, 2, 3 o a, b, c...)
 
 -- ==================== INTEGRANTES_GRUPOS ====================
 CREATE TABLE INTEGRANTES_GRUPOS(
@@ -121,6 +129,7 @@ CREATE TABLE INTEGRANTES_GRUPOS(
     CONSTRAINT FK_INTEGRANTES_GRUPOS_USUARIO FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_USUARIO),
     CONSTRAINT FK_INTEGRANTES_GRUPOS_GRUPO FOREIGN KEY(ID_GRUPO) REFERENCES GRUPO_ESTUDIANTIL(ID_GRUPO) -- FIX: referenciaba a si misma
 );
+-- cada grupo se conforma de varios estudiantes.
 
 -- ==================== TIPO_CULTIVO ====================
 CREATE TABLE TIPO_CULTIVO(
@@ -132,6 +141,7 @@ CREATE TABLE TIPO_CULTIVO(
     FRECUENCIA_FERTILIZACION  VARCHAR(30),
     OBSERVACIONES             VARCHAR(200)
 );
+--referente a que se cultiva, tomates, lechuga, frijoles, etc... pues cada uno de estos debe de ser documentado con precision.
 
 -- ==================== CULTIVO ====================
 CREATE TABLE CULTIVO(
@@ -147,12 +157,16 @@ CREATE TABLE CULTIVO(
     CONSTRAINT FK_CULTIVO_GRUPO_ESTUDIANTIL FOREIGN KEY(ID_GRUPO) REFERENCES GRUPO_ESTUDIANTIL(ID_GRUPO),
     CONSTRAINT FK_CULTIVO_ESTADO FOREIGN KEY(ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
+--una area dentro de la huerta, cada cultivo tiene un solo tipo de cultivo, evitando que tomates se mezclen con lechugas.
+--queda a cargo de un grupo, pertenece a una sola huerta, estado (activo, inactivo)
 
 -- ==================== TIPO_ACTIVIDAD ====================
 CREATE TABLE TIPO_ACTIVIDAD(
     ID_TIPO_ACTIVIDAD  INT AUTO_INCREMENT PRIMARY KEY,
     NOMBRE_ACTIVIDAD   VARCHAR(50)
 );
+--segun normalizacion, las actividades se realizan en una tabla aparte, evitando datos duplicados.
+--facilita la busqueda de alertas o actividades where tipo_Actividad = ?
 
 -- ==================== ACTIVIDAD ====================
 -- NOTA IMPORTANTE: el script original NO incluye tablas propias
@@ -172,6 +186,8 @@ CREATE TABLE ACTIVIDAD(
     CONSTRAINT FK_ACTIVIDAD_USUARIO FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID_USUARIO),
     CONSTRAINT FK_ACTIVIDAD_TIPO FOREIGN KEY(ID_TIPO_ACTIVIDAD) REFERENCES TIPO_ACTIVIDAD(ID_TIPO_ACTIVIDAD)
 );
+--registra una accion que ocurre dentro del cultivo, funciona como una bitacora y tiene una fecha de realizacion.
+--queda para siempre como un registro del historial.
 
 -- ==================== ALERTA ====================
 CREATE TABLE ALERTA(
@@ -186,6 +202,8 @@ CREATE TABLE ALERTA(
     CONSTRAINT FK_ALERTA_TIPO FOREIGN KEY(ID_TIPO_ACTIVIDAD) REFERENCES TIPO_ACTIVIDAD(ID_TIPO_ACTIVIDAD),
     CONSTRAINT FK_ALERTA_ESTADO FOREIGN KEY(ID_ESTADO) REFERENCES ESTADO(ID_ESTADO)
 );
+--notifica a los usuarios acerca de una actividad que necesita atencion, funciona como notficicacion y cuenta con un 
+--estado(Pendiente, atendida,etc), una vez completada se puede eliminar
 
 -- ============================================================
 -- DATOS SEMILLA
