@@ -10,4 +10,4 @@ $alertaObj = new Alerta($conexion); //crea un objeto
 $lista = $alertaObj->listar(); //lista el objeto
 
 
-include(__DIR__ . "/vista/listar") //carga la vista de la lista
+include(__DIR__ . "/vistas/listar_vista.html"); //carga la vista de la lista
