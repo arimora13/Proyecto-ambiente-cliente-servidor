@@ -4,11 +4,11 @@ validarSesion();
 validarRol(["Administrador"]);
 require_once("../clases/Usuario.php");
 
+
 if (!isset($_GET['id'])) {
     header("Location: listar.php");
     exit;
 }
-
 $usuarioObj = new Usuario($conexion);
 $datos = $usuarioObj->obtenerPorId($_GET['id']);
 
