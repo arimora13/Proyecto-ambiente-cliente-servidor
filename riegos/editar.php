@@ -10,13 +10,21 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $riegoObj->editar($_POST['id'], $_POST['idCultivo'], $_POST['fecha'], $_POST['descripcion']);
-    header("Location: listar.php?msg=editado");
-    exit;
+
+      $riegoObj ->editar($_POST['id'],
+       $_POST['idCultivo'], 
+       $_POST['fecha'], 
+       $_POST['descripcion']);
+
+       header ("Location: listar.php?msg=editado");
+
+       exit; 
+
 }
 
-$datos = $riegoObj->obtenerPorId($_GET['id']);
+$datos = $riegoObj ->obtenerPorId($_GET['id']);
 if (!$datos) {
     header("Location: listar.php");
     exit;
