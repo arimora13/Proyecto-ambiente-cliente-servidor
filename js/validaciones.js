@@ -6,11 +6,11 @@ function validarLogin() {
     var clave  = document.getElementById('clave').value.trim();
 
     if (correo === "" || clave === "") {
-        alert("Debe completar correo y contrasena.");
+        alert("Debe completar correo y contrasena");
         return false;
     }
     if (!validarCorreo(correo)) {
-        alert("El correo electronico no tiene un formato valido.");
+        alert("El correo electronico no tiene un formato valido");
         return false;
     }
     return true;
@@ -26,7 +26,7 @@ function validarCamposObligatorios(idsCampos) {
     for (var i = 0; i < idsCampos.length; i++) {
         var campo = document.getElementById(idsCampos[i]);
         if (campo && campo.value.trim() === "") {
-            alert("El campo " + idsCampos[i] + " es obligatorio.");
+            alert("El campo " + idsCampos[i] + " es obligatorio");
             campo.focus();
             return false;
         }
@@ -41,13 +41,13 @@ function validarFormularioUsuario() {
 
     var correo = document.getElementById("correo").value.trim();
     if (!validarCorreo(correo)) {
-        alert("El correo electronico no es valido.");
+        alert("El correo electronico no es valido");
         return false;
     }
 
     var claveCampo = document.getElementById("clave");
     if (claveCampo && claveCampo.value.trim() !== "" && claveCampo.value.trim().length < 6) {
-        alert("La contrasena debe tener al menos 6 caracteres.");
+        alert("La contraseña debe tener al menos 6 caracteres");
         return false;
     }
     return true;
