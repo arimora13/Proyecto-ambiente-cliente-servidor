@@ -17,24 +17,24 @@
         </div>
 
         <?php if (isset($_GET['msg'])): ?>
-            <div class="alert alert-info">Operacion realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
+            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
         <?php endif; ?>
 
         <table class="table table-striped">
             <thead>
-                <tr><th>ID</th><th>Cultivo</th><th>Tipo de actividad</th><th>Descripcion</th><th>Estado</th><th>Acciones</th></tr>
+                <tr><th>ID</th><th>Cultivo</th><th>Tipo de actividad</th><th>Descripción</th><th>Estado</th><th>Acciones</th></tr>
             </thead>
             <tbody>
                 <?php foreach ($lista as $a): ?>
                 <tr class="<?php echo ($a['NOMBRE_ESTADO']=='Pendiente') ? 'table-warning' : ''; ?>">
-                    <td><?php echo $a['ID_ALERTA']; ?></td>
-                    <td>#<?php echo $a['ID_CULTIVO']; ?></td>
+                    <td><?php echohtmlspecialchars($a['ID_ALERTA']); ?></td>
+                    <td>#<?php echo htmlspecialchars($a['ID_CULTIVO']); ?></td>
                     <td><?php echo htmlspecialchars($a['NOMBRE_ACTIVIDAD']); ?></td>
                     <td><?php echo htmlspecialchars($a['DESCRIPCION']); ?></td>
                     <td><?php echo htmlspecialchars($a['NOMBRE_ESTADO']); ?></td>
                     <td>
-                        <a href="editar.php?id=<?php echo $a['ID_ALERTA']; ?>" class="btn btn-sm btn-primary">Atender</a>
-                        <a href="eliminar.php?id=<?php echo $a['ID_ALERTA']; ?>" class="btn btn-sm btn-danger"
+                        <a href="editar.php?id=<?php echo htmlspecialchars($a['ID_ALERTA']); ?>" class="btn btn-sm btn-primary">Atender</a>
+                        <a href="eliminar.php?id=<?php echo htmlspecialchars($a['ID_ALERTA']); ?>" class="btn btn-sm btn-danger"
                            onclick="return confirmarEliminar('¿Eliminar esta alerta?')">Eliminar</a>
                     </td>
                 </tr>
