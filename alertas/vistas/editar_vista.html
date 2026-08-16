@@ -11,14 +11,14 @@
 
 <div class="container mt-2">
     <div class="contenedor-modulo" style="max-width:600px;margin:auto;">
-        <h4 class="mb-3">Atender alerta #<?php echo $datos['ID_ALERTA']; ?></h4>
-        <form method="POST" action="editar.php?id=<?php echo $datos['ID_ALERTA']; ?>" id="formAlerta" novalidate>
-            <input type="hidden" name="id" value="<?php echo $datos['ID_ALERTA']; ?>">
+        <h4 class="mb-3">Atender alerta #<?php echo htmlspecialchars($datos['ID_ALERTA']); ?></h4>
+        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_ALERTA']); ?>" id="formAlerta" novalidate>
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_ALERTA']); ?>">
             <div class="mb-3">
                 <label class="form-label">Estado</label>
                 <select class="form-select" id="idEstado" name="idEstado" required>
-                    <?php foreach ($listaEstados as $e): ?>
-                        <option value="<?php echo $e['ID_ESTADO']; ?>" <?php echo ($e['ID_ESTADO']==$datos['ID_ESTADO'])?'selected':''; ?>><?php echo htmlspecialchars($e['NOMBRE_ESTADO']); ?></option>
+                    <?php echo htmlspecialchars($e['NOMBRE_ESTADO']); ?>
+                        <option value="<?php echo htmlspecialchars($e['ID_ESTADO']); ?>" <?php echo ($e['ID_ESTADO']==$datos['ID_ESTADO'])?'selected':''; ?>><?php echo htmlspecialchars($e['NOMBRE_ESTADO']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -34,7 +34,8 @@
 <script src="../js/validaciones.js"></script>
 <script>
 document.getElementById('formAlerta').addEventListener('submit', function(e){
-    if (!validarFormularioGeneral(["idEstado","descripcion"])) e.preventDefault();
+    if (!validarFormularioGeneral(["idEstado","descripcion"])) 
+    e.preventDefault();
 });
 </script>
 </body>
