@@ -1,11 +1,12 @@
 <?php
 require_once("../conexion.php");
 validarSesion();
+validarRol(["Administrador","Docente"]);
 require_once("../clases/Fertilizacion.php");
 
 $fertilizacionObj = new Fertilizacion($conexion);
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: listar.php");
     exit;
 }
