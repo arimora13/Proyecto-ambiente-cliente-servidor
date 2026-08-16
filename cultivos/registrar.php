@@ -5,10 +5,6 @@ validarRol(["Administrador","Docente"]);
 require_once("../clases/Cultivo.php");
 
 $cultivoObj = new Cultivo($conexion);
-$listaHuertas = $cultivoObj->listarHuertas();
-$listaTipos   = $cultivoObj->listarTiposCultivo();
-$listaGrupos  = $cultivoObj->listarGrupos();
-$listaEstados = $cultivoObj->listarEstados();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cultivoObj->guardar(
@@ -22,5 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Location: listar.php?msg=guardado");
     exit;
 }
+
+$listaHuertas = $cultivoObj->listarHuertas();
+$listaTipos   = $cultivoObj->listarTiposCultivo();
+$listaGrupos  = $cultivoObj->listarGrupos();
+$listaEstados = $cultivoObj->listarEstados();
 
 include(__DIR__ . "/vistas/registrar_vista.html");
