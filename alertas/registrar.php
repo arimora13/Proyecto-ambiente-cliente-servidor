@@ -7,18 +7,6 @@ validarRol(["Administrador","Docente"]); //roles
 require_once("../clases/Alerta.php"); 
 $alertaObj = new Alerta($conexion);
 
-//obtiene la lista de los cultivos de la bd
-$listaCultivos = $conexion->query("SELECT ID_CULTIVO FROM CULTIVO")->
-fetchAll(PDO::FETCH_ASSOC);
-
-//Obtiene los tipos de actividades de la bd
-$listaTipos    = $conexion->query("SELECT ID_TIPO_ACTIVIDAD, NOMBRE_ACTIVIDAD 
-FROM TIPO_ACTIVIDAD")->fetchAll(PDO::FETCH_ASSOC);
-
-//obtiene los estados para la alerta
-$listaEstados  = $conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO 
-FROM ESTADO")->fetchAll(PDO::FETCH_ASSOC);
-
 //si el formulario ya fue enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $alertaObj->guardar(
@@ -34,6 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Location: listar.php?msg=guardado");
     exit;
 } 
+
+//obtiene la lista de los cultivos de la bd
+$listaCultivos = $conexion->query("SELECT ID_CULTIVO FROM CULTIVO")->
+fetchAll(PDO::FETCH_ASSOC);
+
+//Obtiene los tipos de actividades de la bd
+$listaTipos    = $conexion->query("SELECT ID_TIPO_ACTIVIDAD, NOMBRE_ACTIVIDAD 
+FROM TIPO_ACTIVIDAD")->fetchAll(PDO::FETCH_ASSOC);
+
+//obtiene los estados para la alerta
+$listaEstados  = $conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO 
+FROM ESTADO")->fetchAll(PDO::FETCH_ASSOC);
+
 
 //carga la vista del formulario registrado
 include(__DIR__ . "/vistas/registrar_vista.html");
