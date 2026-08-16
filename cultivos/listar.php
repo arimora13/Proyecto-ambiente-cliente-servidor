@@ -8,7 +8,7 @@ $listaCultivos = $cultivoObj->listar();
 
 $verSeguimiento = null;
 $historial = [];
-if (isset($_GET['seguimiento'])) {
+if (isset($_GET['seguimiento']) && !empty($_GET['seguimiento'])) {
     $verSeguimiento = $_GET['seguimiento'];
     $historial = $cultivoObj->seguimiento($verSeguimiento);
 }
