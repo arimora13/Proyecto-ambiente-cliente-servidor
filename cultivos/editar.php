@@ -6,7 +6,7 @@ require_once("../clases/Cultivo.php");
 
 $cultivoObj = new Cultivo($conexion);
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: listar.php");
     exit;
 }
