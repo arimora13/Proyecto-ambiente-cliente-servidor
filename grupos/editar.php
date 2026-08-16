@@ -6,7 +6,7 @@ require_once("../clases/GrupoEstudiantil.php");
 
 $grupoObj = new GrupoEstudiantil($conexion);
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: listar.php");
     exit;
 }
