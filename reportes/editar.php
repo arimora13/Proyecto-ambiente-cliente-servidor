@@ -6,7 +6,7 @@ require_once("../clases/Reporte.php"); //carga clase reporte
 
 $reporteObj = new Reporte($conexion); //creacion del objeto
 
-if (!isset($_GET['id'])) { //si no existe
+if (!isset($_GET['id']) || empty($_GET['id'])) { //si no existe
     header("Location: listar.php"); 
     //regresa el listado
     exit;
