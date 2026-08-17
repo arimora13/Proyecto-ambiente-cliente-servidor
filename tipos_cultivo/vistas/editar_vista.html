@@ -12,18 +12,18 @@
 <div class="container mt-2">
     <div class="contenedor-modulo" style="max-width:600px;margin:auto;">
         <h4 class="mb-3">Editar tipo de cultivo</h4>
-        <form method="POST" action="editar.php?id=<?php echo $datos['ID_TIPO_CULTIVO']; ?>" id="formTipoCultivo" novalidate>
-            <input type="hidden" name="id" value="<?php echo $datos['ID_TIPO_CULTIVO']; ?>">
+        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_TIPO_CULTIVO']); ?>" id="formTipoCultivo" novalidate>
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_TIPO_CULTIVO']); ?>">
             <div class="mb-3">
                 <label class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($datos['NOMBRE']); ?>" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Nombre cientifico</label>
+                <label class="form-label">Nombre científico</label>
                 <input type="text" class="form-control" id="nombreCientifico" name="nombreCientifico" value="<?php echo htmlspecialchars($datos['NOMBRE_CIENTIFICO']); ?>">
             </div>
             <div class="mb-3">
-                <label class="form-label">Tiempo de cosecha (dias)</label>
+                <label class="form-label">Tiempo de cosecha (días)</label>
                 <input type="number" min="0" class="form-control" id="tiempoCosecha" name="tiempoCosecha" value="<?php echo htmlspecialchars($datos['TIEMPO_COSECHA']); ?>" required>
             </div>
             <div class="mb-3">
@@ -31,7 +31,7 @@
                 <input type="text" class="form-control" id="frecuenciaRiego" name="frecuenciaRiego" value="<?php echo htmlspecialchars($datos['FRECUENCIA_RIEGO']); ?>">
             </div>
             <div class="mb-3">
-                <label class="form-label">Frecuencia de fertilizacion</label>
+                <label class="form-label">Frecuencia de fertilización</label>
                 <input type="text" class="form-control" id="frecuenciaFertilizacion" name="frecuenciaFertilizacion" value="<?php echo htmlspecialchars($datos['FRECUENCIA_FERTILIZACION']); ?>">
             </div>
             <div class="mb-3">

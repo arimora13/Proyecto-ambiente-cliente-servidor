@@ -5,7 +5,7 @@ require_once("../clases/TipoCultivo.php");
 
 $tipoObj = new TipoCultivo($conexion);
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: listar.php");
     exit;
 }
