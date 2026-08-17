@@ -6,11 +6,11 @@ function validarLogin() {
     var clave  = document.getElementById('clave').value.trim();
 
     if (correo === "" || clave === "") {
-        alert("Debe completar correo y contrasena");
+        alert("Debe completar correo y contraseña");
         return false;
     }
     if (!validarCorreo(correo)) {
-        alert("El correo electronico no tiene un formato valido");
+        alert("El correo electrónico no tiene un formato válido");
         return false;
     }
     return true;
@@ -41,7 +41,7 @@ function validarFormularioUsuario() {
 
     var correo = document.getElementById("correo").value.trim();
     if (!validarCorreo(correo)) {
-        alert("El correo electronico no es valido");
+        alert("El correo electrónico no es válido");
         return false;
     }
 
@@ -60,5 +60,5 @@ function validarFormularioGeneral(idsCampos) {
 
 // Confirmacion antes de eliminar un registro
 function confirmarEliminar(mensaje) {
-    return confirm(mensaje || "¿Esta seguro que desea eliminar este registro?");
+    return confirm(mensaje || "¿Está seguro que desea eliminar este registro?");
 }
