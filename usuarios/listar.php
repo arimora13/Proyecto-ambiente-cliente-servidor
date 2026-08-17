@@ -8,3 +8,4 @@ $usuario = new Usuario($conexion);
 $listaUsuarios = $usuario->listar();
 
 include(__DIR__ . "/vistas/listar_vista.html");
+?>
