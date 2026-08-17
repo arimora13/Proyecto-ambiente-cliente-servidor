@@ -16,7 +16,7 @@ define('BASE_URL', substr($raizProyecto, strlen($raizServidor)));
 $servidor   = "localhost";      // Nombre o IP del servidor MySQL
 $baseDatos  = "Huertica";
 $usuarioBD  = "root";           // Cambiar por el usuario real
-$claveBD    = "Jos3lito";               // Cambiar por la clave real
+$claveBD    = "";               // Cambiar por la clave real
 
 try {
     $conexion = new PDO("mysql:host=$servidor;dbname=$baseDatos;charset=utf8mb4", $usuarioBD, $claveBD);
