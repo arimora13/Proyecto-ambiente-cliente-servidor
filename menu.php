@@ -62,7 +62,7 @@ $menuBase = [
     ["texto" => "Huertas",          "url" => "huertas/listar.php",          "roles" => ["Administrador"]],
     ["texto" => "Escuelas",         "url" => "instituciones/listar.php",    "roles" => ["Administrador"]],
     ["texto" => "Grupos",           "url" => "grupos/listar.php",           "roles" => ["Administrador"]],
-    ["texto" => "Tipos de cultivo", "url" => "tipos_cultivo/listar.php",    "roles" => ["Administrador","Docente","Estudiante"]],
+    ["texto" => "Tipos de cultivo", "url" => "tipos_cultivo/listar.php",    "roles" => ["Administrador","Docente"]],
 ];
 
 include(__DIR__ . "/vistas/menu_vista.html");
