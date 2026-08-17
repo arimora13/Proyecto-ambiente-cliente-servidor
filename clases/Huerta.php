@@ -26,11 +26,26 @@ class Huerta {
     }
 
     // DELETE
-    public function eliminar($id) {
-        $sql = "DELETE FROM HUERTA WHERE ID_HUERTA = ?";
-        $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([$id]);
-    }
+    public function eliminar($idHuerta) {
+    
+    $stmt1 = $this->conexion->prepare("DELETE FROM REPORTE WHERE ID_HUERTA = ?");
+    $stmt1->execute([$idHuerta]);
+
+    
+    $stmt2 = $this->conexion->prepare("DELETE FROM ACTIVIDAD WHERE ID_CULTIVO IN (SELECT ID_CULTIVO FROM CULTIVO WHERE ID_HUERTA = ?)");
+    $stmt2->execute([$idHuerta]);
+
+    $stmt3 = $this->conexion->prepare("DELETE FROM ALERTA WHERE ID_CULTIVO IN (SELECT ID_CULTIVO FROM CULTIVO WHERE ID_HUERTA = ?)");
+    $stmt3->execute([$idHuerta]);
+
+   
+    $stmt4 = $this->conexion->prepare("DELETE FROM CULTIVO WHERE ID_HUERTA = ?");
+    $stmt4->execute([$idHuerta]);
+
+   
+    $stmt5 = $this->conexion->prepare("DELETE FROM HUERTA WHERE ID_HUERTA = ?");
+    return $stmt5->execute([$idHuerta]);
+}
 
     // SELECT todas
     public function listar() {

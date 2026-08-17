@@ -33,13 +33,12 @@ class Usuario {
         return $stmt->execute([md5($claveNueva), $id]);
     }
 
-    // DELETE
-    public function eliminar($id) {
-        $sql = "DELETE FROM USUARIO WHERE ID_USUARIO = ?";
-        $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([$id]);
-    }
-
+    // DELETE lógico
+    public function eliminar($idUsuario) {
+    // Solo cambiamos el estado del usuario a Inactivo
+    $stmt = $this->conexion->prepare("UPDATE USUARIO SET ID_ESTADO = 2 WHERE ID_USUARIO = :id");
+    return $stmt->execute([':id' => $idUsuario]);
+}
     // SELECT todos
     public function listar() {
         $sql = "SELECT U.ID_USUARIO, U.NOMBRE, U.APELLIDO_PATERNO, U.APELLIDO_MATERNO, U.CORREO,

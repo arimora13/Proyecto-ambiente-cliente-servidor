@@ -29,11 +29,18 @@ class Cultivo {
 
     // DELETE
     //se elimina unicamente por id
-    public function eliminar($id) {
-        $sql = "DELETE FROM CULTIVO WHERE ID_CULTIVO = ?";
-        $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([$id]);
-    }
+    public function eliminar($idCultivo) {
+    // 1. Borrar registros dependientes en ACTIVIDAD y ALERTA
+    $stmtAct = $this->conexion->prepare("DELETE FROM ACTIVIDAD WHERE ID_CULTIVO = :id");
+    $stmtAct->execute([':id' => $idCultivo]);
+
+    $stmtAle = $this->conexion->prepare("DELETE FROM ALERTA WHERE ID_CULTIVO = :id");
+    $stmtAle->execute([':id' => $idCultivo]);
+
+    // 2. Borrar el cultivo principal
+    $stmt = $this->conexion->prepare("DELETE FROM CULTIVO WHERE ID_CULTIVO = :id");
+    return $stmt->execute([':id' => $idCultivo]);
+}
 
     // SELECT todos implementando left join.
     public function listar() {

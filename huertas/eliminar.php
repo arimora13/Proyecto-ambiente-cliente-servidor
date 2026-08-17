@@ -12,4 +12,5 @@ if (isset($_GET['id'])) {
 } else {
     header("Location: listar.php");
     exit;
+}
 ?>

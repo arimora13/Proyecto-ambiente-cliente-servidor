@@ -27,10 +27,36 @@ class GrupoEstudiantil {
 
     // DELETE
     public function eliminar($id) {
-        $sql = "DELETE FROM GRUPO_ESTUDIANTIL WHERE ID_GRUPO = ?";
-        $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([$id]);
+    try {
+        $this->conexion->beginTransaction();
+
+     
+        $stmtCultivos = $this->conexion->prepare("SELECT ID_CULTIVO FROM CULTIVO WHERE ID_GRUPO = ?");
+        $stmtCultivos->execute([$id]);
+        $cultivos = $stmtCultivos->fetchAll(PDO::FETCH_COLUMN);
+
+     
+        foreach ($cultivos as $idCultivo) {
+            $this->conexion->prepare("DELETE FROM ACTIVIDAD WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
+            $this->conexion->prepare("DELETE FROM ALERTA WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
+        }
+
+       
+        $this->conexion->prepare("DELETE FROM CULTIVO WHERE ID_GRUPO = ?")->execute([$id]);
+
+        $this->conexion->prepare("DELETE FROM INTEGRANTES_GRUPOS WHERE ID_GRUPO = ?")->execute([$id]);
+
+        $stmtGrupo = $this->conexion->prepare("DELETE FROM GRUPO_ESTUDIANTIL WHERE ID_GRUPO = ?");
+        $resultado = $stmtGrupo->execute([$id]);
+
+        $this->conexion->commit();
+        return $resultado;
+
+    } catch (Exception $e) {
+        $this->conexion->rollBack();
+        return false;
     }
+}
 
     // SELECT todos
     public function listar() {
