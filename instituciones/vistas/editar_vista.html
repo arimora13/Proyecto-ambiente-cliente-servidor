@@ -13,9 +13,9 @@
     <div class="contenedor-modulo" style="max-width:600px;margin:auto;">
         <h4 class="mb-3">Editar escuela</h4>
 
-        <form method="POST" action="editar.php?id=<?php echo $datos['ID_INSTITUCION']; ?>" id="formEscuela" novalidate>
-            <input type="hidden" name="id" value="<?php echo $datos['ID_INSTITUCION']; ?>">
-            <input type="hidden" name="idDireccion" value="<?php echo $datos['ID_DIRECCION']; ?>">
+        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_INSTITUCION']); ?>" id="formEscuela" novalidate>
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_INSTITUCION']); ?>">
+            <input type="hidden" name="idDireccion" value="<?php echo htmlspecialchars($datos['ID_DIRECCION']); ?>">
 
             <div class="mb-3">
                 <label class="form-label">Nombre de la escuela</label>
@@ -26,7 +26,7 @@
                 <select class="form-select" id="idProvincia" name="idProvincia" required>
                     <option value="">Seleccione...</option>
                     <?php foreach ($listaProvincias as $p): ?>
-                        <option value="<?php echo $p['ID_PROVINCIA']; ?>" <?php echo ($p['ID_PROVINCIA'] == $datos['ID_PROVINCIA']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($p['NOMBRE_PROVINCIA']); ?></option>
+                        <option value="<?php echo htmlspecialchars($p['ID_PROVINCIA']); ?>" <?php echo ($p['ID_PROVINCIA'] == $datos['ID_PROVINCIA']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($p['NOMBRE_PROVINCIA']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -35,7 +35,7 @@
                 <select class="form-select" id="idCanton" name="idCanton" required>
                     <option value="">Seleccione...</option>
                     <?php foreach ($listaCantones as $c): ?>
-                        <option value="<?php echo $c['ID_CANTON']; ?>" <?php echo ($c['ID_CANTON'] == $datos['ID_CANTON']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($c['NOMBRE_CANTON']); ?></option>
+                        <option value="<?php echo htmlspecialchars($c['ID_CANTON']); ?>" <?php echo ($c['ID_CANTON'] == $datos['ID_CANTON']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($c['NOMBRE_CANTON']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -44,16 +44,16 @@
                 <select class="form-select" id="idDistrito" name="idDistrito" required>
                     <option value="">Seleccione...</option>
                     <?php foreach ($listaDistritos as $d): ?>
-                        <option value="<?php echo $d['ID_DISTRITO']; ?>" <?php echo ($d['ID_DISTRITO'] == $datos['ID_DISTRITO']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($d['NOMBRE_DISTRITO']); ?></option>
+                        <option value="<?php echo htmlspecialchars($d['ID_DISTRITO']); ?>" <?php echo ($d['ID_DISTRITO'] == $datos['ID_DISTRITO']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($d['NOMBRE_DISTRITO']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Otras senas</label>
+                <label class="form-label">Otras señas</label>
                 <input type="text" class="form-control" id="otrasSenas" name="otrasSenas" value="<?php echo htmlspecialchars($datos['OTRAS_SENAS']); ?>">
             </div>
             <div class="mb-3">
-                <label class="form-label">Telefono</label>
+                <label class="form-label">Teléfono</label>
                 <input type="text" maxlength="9" class="form-control" id="telefono" name="telefono" value="<?php echo htmlspecialchars($datos['TELEFONO']); ?>">
             </div>
             <button type="submit" class="btn btn-success">Guardar cambios</button>
