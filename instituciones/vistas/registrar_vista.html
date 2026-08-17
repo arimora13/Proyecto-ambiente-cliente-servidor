@@ -23,16 +23,16 @@
                 <select class="form-select" id="idProvincia" name="idProvincia" required>
                     <option value="">Seleccione...</option>
                     <?php foreach ($listaProvincias as $p): ?>
-                        <option value="<?php echo $p['ID_PROVINCIA']; ?>"><?php echo htmlspecialchars($p['NOMBRE_PROVINCIA']); ?></option>
+                        <option value="<?php echo htmlspecialchars($p['ID_PROVINCIA']); ?>"><?php echo htmlspecialchars($p['NOMBRE_PROVINCIA']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Canton</label>
+                <label class="form-label">Cantón</label>
                 <select class="form-select" id="idCanton" name="idCanton" required>
                     <option value="">Seleccione...</option>
                     <?php foreach ($listaCantones as $c): ?>
-                        <option value="<?php echo $c['ID_CANTON']; ?>"><?php echo htmlspecialchars($c['NOMBRE_CANTON']); ?></option>
+                        <option value="<?php echo htmlspecialchars($c['ID_CANTON']); ?>"><?php echo htmlspecialchars($c['NOMBRE_CANTON']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -41,16 +41,16 @@
                 <select class="form-select" id="idDistrito" name="idDistrito" required>
                     <option value="">Seleccione...</option>
                     <?php foreach ($listaDistritos as $d): ?>
-                        <option value="<?php echo $d['ID_DISTRITO']; ?>"><?php echo htmlspecialchars($d['NOMBRE_DISTRITO']); ?></option>
+                        <option value="<?php echo htmlspecialchars($d['ID_DISTRITO']); ?>"><?php echo htmlspecialchars($d['NOMBRE_DISTRITO']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Otras senas</label>
+                <label class="form-label">Otras señas</label>
                 <input type="text" class="form-control" id="otrasSenas" name="otrasSenas">
             </div>
             <div class="mb-3">
-                <label class="form-label">Telefono</label>
+                <label class="form-label">Teléfono</label>
                 <input type="text" maxlength="9" class="form-control" id="telefono" name="telefono">
             </div>
             <button type="submit" class="btn btn-success">Guardar</button>

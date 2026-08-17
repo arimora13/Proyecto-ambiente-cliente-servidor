@@ -17,3 +17,4 @@ $listaCantones   = $institucionObj->listarCantones();
 $listaDistritos  = $institucionObj->listarDistritos();
 
 include(__DIR__ . "/vistas/registrar_vista.html");
+?>
