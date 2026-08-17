@@ -12,36 +12,36 @@
 <div class="container mt-2">
     <div class="contenedor-modulo" style="max-width:600px;margin:auto;">
         <h4 class="mb-3">Editar huerta</h4>
-        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_HUERTA']); ?>" id="formHuerta" novalidate>
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_HUERTA']); ?>">
+        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_HUERTA'] ?? ''); ?>" id="formHuerta" novalidate>
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_HUERTA'] ?? ''); ?>">
             <div class="mb-3">
                 <label class="form-label">Nombre de la huerta</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($datos['NOMBRE']); ?>" required>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($datos['NOMBRE'] ?? ''); ?>" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Institución</label>
                 <select class="form-select" id="idInstitucion" name="idInstitucion" required>
                     <?php foreach ($listaInstituciones as $i): ?>
-                        <option value="<?php echo htmlspecialchars($i['ID_INSTITUCION']); ?>" <?php echo ($i['ID_INSTITUCION'] == $datos['ID_INSTITUCION']) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($i['NOMBRE']); ?>
+                        <option value="<?php echo htmlspecialchars($i['ID_INSTITUCION'] ?? ''); ?>" <?php echo ($i['ID_INSTITUCION'] == $datos['ID_INSTITUCION']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($i['NOMBRE'] ?? ''); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
                 <label class="form-label">Área (m2)</label>
-                <input type="number" min="0" class="form-control" id="areaM2" name="areaM2" value="<?php echo htmlspecialchars($datos['AREA_M2']); ?>" required>
+                <input type="number" min="0" class="form-control" id="areaM2" name="areaM2" value="<?php echo htmlspecialchars($datos['AREA_M2'] ?? ''); ?>" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"><?php echo htmlspecialchars($datos['DESCRIPCION']); ?></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"><?php echo htmlspecialchars($datos['DESCRIPCION'] ?? ''); ?></textarea>
             </div>
             <div class="mb-3">
                 <label class="form-label">Estado</label>
                 <select class="form-select" id="idEstado" name="idEstado" required>
                     <?php foreach ($listaEstados as $e): ?>
-                        <option value="<?php echo htmlspecialchars($e['ID_ESTADO']); ?>" <?php echo ($e['ID_ESTADO'] == $datos['ID_ESTADO']) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($e['NOMBRE_ESTADO']); ?>
+                        <option value="<?php echo htmlspecialchars($e['ID_ESTADO'] ?? ''); ?>" <?php echo ($e['ID_ESTADO'] == $datos['ID_ESTADO']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($e['NOMBRE_ESTADO'] ?? ''); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

@@ -6,7 +6,7 @@ require_once("../clases/Cultivo.php");
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $cultivoObj = new Cultivo($conexion);
-    $cultivoObj->eliminar($_GET['id']);
+    $cultivoObj->eliminar($_GET['id'] ?? '');
 }
 header("Location: listar.php?msg=eliminado");
 exit;

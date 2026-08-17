@@ -17,7 +17,7 @@
         </div>
 
         <?php if (isset($_GET['msg'])): ?>
-            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
+            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg'] ?? ''); ?></div>
         <?php endif; ?>
 
         <table class="table table-striped">
@@ -36,17 +36,17 @@
             <tbody>
                 <?php foreach ($listaCultivos as $c): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($c['ID_CULTIVO']); ?></td>
-                    <td><?php echo htmlspecialchars($c['NOMBRE_HUERTA']); ?></td>
-                    <td><?php echo htmlspecialchars($c['NOMBRE_TIPO']); ?></td>
-                    <td><?php echo htmlspecialchars($c['NOMBRE_GRUPO']); ?></td>
-                    <td><?php echo htmlspecialchars($c['NOMBRE_ESTADO']); ?></td>
-                    <td><?php echo htmlspecialchars($c['FECHA_SIEMBRA']); ?></td>
-                    <td><?php echo htmlspecialchars($c['CANTIDAD']); ?></td>
+                    <td><?php echo htmlspecialchars($c['ID_CULTIVO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($c['NOMBRE_HUERTA'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($c['NOMBRE_TIPO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($c['NOMBRE_GRUPO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($c['NOMBRE_ESTADO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($c['FECHA_SIEMBRA'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($c['CANTIDAD'] ?? ''); ?></td>
                     <td>
-                        <a href="listar.php?seguimiento=<?php echo htmlspecialchars($c['ID_CULTIVO']); ?>" class="btn btn-sm btn-info">Seguimiento</a>
-                        <a href="editar.php?id=<?php echo htmlspecialchars($c['ID_CULTIVO']); ?>" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="eliminar.php?id=<?php echo htmlspecialchars($c['ID_CULTIVO']); ?>"
+                        <a href="listar.php?seguimiento=<?php echo htmlspecialchars($c['ID_CULTIVO'] ?? ''); ?>" class="btn btn-sm btn-info">Seguimiento</a>
+                        <a href="editar.php?id=<?php echo htmlspecialchars($c['ID_CULTIVO'] ?? ''); ?>" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="eliminar.php?id=<?php echo htmlspecialchars($c['ID_CULTIVO'] ?? ''); ?>"
                            class="btn btn-sm btn-danger"
                            onclick="return confirmarEliminar('¿Eliminar este cultivo?')">Eliminar</a>
                     </td>
@@ -68,10 +68,10 @@
                 <?php endif; ?>
                 <?php foreach ($historial as $h): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($h['FECHA_ACTIVIDAD']); ?></td>
-                    <td><?php echo htmlspecialchars($h['NOMBRE_ACTIVIDAD']); ?></td>
-                    <td><?php echo htmlspecialchars($h['DESCRIPCION']); ?></td>
-                    <td><?php echo htmlspecialchars($h['RESPONSABLE']); ?></td>
+                    <td><?php echo htmlspecialchars($h['FECHA_ACTIVIDAD'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($h['NOMBRE_ACTIVIDAD'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($h['DESCRIPCION'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($h['RESPONSABLE'] ?? ''); ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

@@ -245,35 +245,159 @@ ADD CONSTRAINT CK_CULTIVO_CANTIDAD
 CHECK (CANTIDAD > 0);
 
 
--- ============================================================
--- DATOS SEMILLA
--- ============================================================
-INSERT INTO ROL (NOMBRE_ROL) VALUES ('Administrador'),('Docente'),('Estudiante');
+-- ==================== INSERCIÓN DE DATOS ====================
 
-INSERT INTO ESTADO (NOMBRE_ESTADO) VALUES ('Activo'),('Inactivo'),('Pendiente'),('Atendida'),('Buen estado'),('En riesgo');
+-- Roles
+INSERT INTO ROL (NOMBRE_ROL) VALUES 
+('Administrador'),
+('Docente'),
+('Estudiante'),
+('Coordinador');
 
--- Usuario administrador de prueba (clave: admin123, guardada como hash)
-INSERT INTO USUARIO (ID_ROL, ID_ESTADO, NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, CONTRASENA, CORREO)
-VALUES (1, 1, 'Admin', 'Huertica', 'Sistema', '0192023a7bbd73250516f069df18b500', 'admin@huertica.com');
--- (hash MD5 de 'admin123' solo como ejemplo didactico; ver clases/Usuario.php)
+-- Estados
+INSERT INTO ESTADO (NOMBRE_ESTADO) VALUES 
+('Activo'),
+('Inactivo'),
+('Pendiente'),
+('Atendida'),
+('Buen estado'),
+('En riesgo'),
+('Resuelto');
 
-INSERT INTO TIPO_ACTIVIDAD (NOMBRE_ACTIVIDAD) VALUES ('Riego'),('Fertilizacion'),('Control de plagas'),('Poda'),('Cosecha');
+-- Usuarios (Clave plana: admin123)
+INSERT INTO USUARIO (ID_ROL, ID_ESTADO, NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, CONTRASENA, CORREO) VALUES 
+(1, 1, 'Admin', 'Huertica', 'Sistema', '0192023a7bbd73250516f069df18b500', 'admin@huertica.com'),
+(2, 1, 'Carlos', 'Mendoza', 'Vargas', '0192023a7bbd73250516f069df18b500', 'carlos.mendoza@huertica.com'),
+(2, 1, 'María', 'Fernández', 'Rojas', '0192023a7bbd73250516f069df18b500', 'docente@huertica.com');
 
-INSERT INTO TIPO_CULTIVO (NOMBRE, NOMBRE_CIENTIFICO, TIEMPO_COSECHA, FRECUENCIA_RIEGO, FRECUENCIA_FERTILIZACION, OBSERVACIONES)
-VALUES ('Lechuga', 'Lactuca sativa', 45, 'Diario', 'Quincenal', 'Cultivo de ciclo corto'),
-       ('Tomate', 'Solanum lycopersicum', 90, 'Cada 2 dias', 'Mensual', 'Requiere tutorado');
+-- Tipos de Actividad
+INSERT INTO TIPO_ACTIVIDAD (NOMBRE_ACTIVIDAD) VALUES 
+('Riego'),
+('Fertilizacion'),
+('Control de plagas'),
+('Poda'),
+('Cosecha'),
+('Deshierbe');
 
-INSERT INTO PROVINCIA (NOMBRE_PROVINCIA) VALUES ('San Jose');
-INSERT INTO CANTON (NOMBRE_CANTON) VALUES ('San Jose Centro');
-INSERT INTO DISTRITO (NOMBRE_DISTRITO) VALUES ('Carmen');
+-- Tipos de Cultivo
+INSERT INTO TIPO_CULTIVO (NOMBRE, NOMBRE_CIENTIFICO, TIEMPO_COSECHA, FRECUENCIA_RIEGO, FRECUENCIA_FERTILIZACION, OBSERVACIONES) VALUES 
+('Lechuga', 'Lactuca sativa', 45, 'Diario', 'Quincenal', 'Cultivo de ciclo corto'),
+('Tomate', 'Solanum lycopersicum', 90, 'Cada 2 dias', 'Mensual', 'Requiere tutorado'),
+('Zanahoria', 'Daucus carota', 75, 'Cada 2 días', 'Cada 3 semanas', 'Requiere suelo suelto y profundo'),
+('Chile Dulce', 'Capsicum annuum', 80, 'Cada 2 días', 'Cada 15 días', 'Sensible a las heladas, requiere bastante sol');
 
-INSERT INTO DIRECCION (ID_PROVINCIA, ID_CANTON, ID_DISTRITO, OTRAS_SENAS)
-VALUES (1,1,1,'100 metros norte del parque central');
+-- División Territorial: 7 Provincias
+INSERT INTO PROVINCIA (NOMBRE_PROVINCIA) VALUES 
+('San Jose'),
+('Alajuela'),
+('Cartago'),
+('Heredia'),
+('Guanacaste'),
+('Puntarenas'),
+('Limón');
 
-INSERT INTO INSTITUCION (ID_DIRECCION, NOMBRE) VALUES (1,'Escuela Huertica');
+-- División Territorial: 20 Cantones
+INSERT INTO CANTON (NOMBRE_CANTON) VALUES 
+('San Jose Centro'),
+('Escazú'),
+('Desamparados'),
+('Pérez Zeledón'),
+('Alajuela Centro'),
+('San Ramón'),
+('Grecia'),
+('San Carlos'),
+('Cartago Centro'),
+('Paraíso'),
+('La Unión'),
+('Heredia Centro'),
+('Barva'),
+('Santo Domingo'),
+('Liberia'),
+('Nicoya'),
+('Puntarenas Centro'),
+('Esparza'),
+('Limón Centro'),
+('Pococe');
 
-INSERT INTO HUERTA (ID_INSTITUCION, ID_ESTADO, NOMBRE, AREA_M2, DESCRIPCION)
-VALUES (1, 1, 'Huerta Escolar Principal', 120, 'Huerta demostrativa del proyecto');
+-- División Territorial: 20 Distritos
+INSERT INTO DISTRITO (NOMBRE_DISTRITO) VALUES 
+('Carmen'),
+('Merced'),
+('Barrio Cuba'),
+('Catedral'),
+('Zapote'),
+('San Francisco'),
+('Uruca'),
+('Mata Redonda'),
+('Pavas'),
+('Hatillo'),
+('San Sebastián'),
+('Escazú Centro'),
+('San Miguel'),
+('San Isidro'),
+('Alajuela Centro'),
+('San Rafael'),
+('Cartago Oriental'),
+('Heredia Centro'),
+('Liberia Centro'),
+('Limón Centro');
+
+-- Direcciones
+INSERT INTO DIRECCION (ID_PROVINCIA, ID_CANTON, ID_DISTRITO, OTRAS_SENAS) VALUES 
+(1, 1, 1, '100 metros norte del parque central'),
+(2, 5, 15, 'De la iglesia católica, 200m Oeste'),
+(3, 9, 17, '200 metros este del Colegio San Luis Gonzaga');
+
+-- Instituciones
+INSERT INTO INSTITUCION (ID_DIRECCION, NOMBRE) VALUES 
+(1, 'Escuela Huertica'),
+(2, 'Escuela República de Costa Rica'),
+(3, 'Escuela Padre Minor');
+
+-- Teléfonos
+INSERT INTO TELEFONO (ID_INSTITUCION, TELEFONO) VALUES 
+(2, '2222-3333'),
+(3, '2551-8899');
+
+-- Huertas
+INSERT INTO HUERTA (ID_INSTITUCION, ID_ESTADO, NOMBRE, AREA_M2, DESCRIPCION) VALUES 
+(1, 1, 'Huerta Escolar Principal', 120, 'Huerta demostrativa del proyecto'),
+(2, 1, 'Huerta de Hortalizas Norte', 85, 'Área dedicada al cultivo de verduras de hoja verde'),
+(3, 1, 'Huerta San Isidro', 95, 'Espacio enfocado en cultivos tubérculos');
+
+-- Reportes
+INSERT INTO REPORTE (ID_HUERTA, FECHA, PERIODO, DESCRIPCION) VALUES 
+(2, '2026-08-15', 'Segundo Trimestre', 'Reporte de avance y producción de hortalizas enviado al MEP'),
+(3, '2026-08-17', 'Tercer Trimestre', 'Informe sobre instalación del sistema de riego por goteo');
+
+-- Grupos Estudiantiles
+INSERT INTO GRUPO_ESTUDIANTIL (ID_DOCENTE_RESPONSABLE, NOMBRE, GRADO, SECCION, ANYO) VALUES 
+(2, 'Los Verdes', 5, '5-A', '2026'),
+(3, 'Guardianes Verdes', 6, '6-B', '2026');
+
+-- Integrantes de Grupos
+INSERT INTO INTEGRANTES_GRUPOS (ID_USUARIO, ID_GRUPO) VALUES 
+(2, 1),
+(3, 2);
+
+-- Cultivos
+INSERT INTO CULTIVO (ID_HUERTA, ID_TIPO_CULTIVO, ID_GRUPO, ID_ESTADO, FECHA_SIEMBRA, CANTIDAD) VALUES 
+(2, 3, 1, 1, '2026-08-01', 50),
+(3, 4, 2, 1, '2026-08-10', 35);
+
+-- Actividades
+INSERT INTO ACTIVIDAD (ID_CULTIVO, ID_USUARIO, ID_TIPO_ACTIVIDAD, FECHA_ACTIVIDAD, DESCRIPCION) VALUES 
+(1, 2, 1, '2026-08-16', 'Aplicación de riego matutino por goteo durante 30 minutos'),
+(2, 3, 1, '2026-08-17', 'Riego profundo por aspersión al atardecer'),
+(1, 2, 2, '2026-08-16', 'Aplicación de abono orgánico foliar'),
+(2, 3, 2, '2026-08-17', 'Aplicación de compostaje enriquecido en la base del cultivo'),
+(1, 2, 3, '2026-08-17', 'Tratamiento con aceite de Neem para control de pulgón'),
+(2, 3, 3, '2026-08-17', 'Inspección manual y colocación de trampas cromáticas amarillas');
+
+-- Alertas
+INSERT INTO ALERTA (ID_CULTIVO, ID_USUARIO, ID_TIPO_ACTIVIDAD, ID_ESTADO, DESCRIPCION) VALUES 
+(1, 2, 3, 3, 'Se detectaron manchas blancas en las hojas, requiere revisión de plaga'),
+(2, 3, 2, 3, 'Se requiere programar la fertilización mensual del cultivo de Chile Dulce');
 
 -- ============================================================
 -- DATOS SEMILLA

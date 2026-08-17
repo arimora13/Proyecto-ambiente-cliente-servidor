@@ -13,10 +13,10 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-      $riegoObj ->editar($_POST['id'],
-       $_POST['idCultivo'], 
-       $_POST['fecha'], 
-       $_POST['descripcion']);
+      $riegoObj ->editar($_POST['id'] ?? '',
+       $_POST['idCultivo'] ?? '', 
+       $_POST['fecha'] ?? '', 
+       $_POST['descripcion'] ?? '');
        header ("Location: listar.php?msg=editado");
        exit; 
 }

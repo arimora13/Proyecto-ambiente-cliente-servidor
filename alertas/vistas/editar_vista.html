@@ -11,14 +11,14 @@
 
 <div class="container mt-2">
     <div class="contenedor-modulo" style="max-width:600px;margin:auto;">
-        <h4 class="mb-3">Atender alerta #<?php echo htmlspecialchars($datos['ID_ALERTA']); ?></h4>
-        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_ALERTA']); ?>" id="formAlerta" novalidate>
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_ALERTA']); ?>">
+        <h4 class="mb-3">Atender alerta #<?php echo htmlspecialchars($datos['ID_ALERTA'] ?? ''); ?></h4>
+        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_ALERTA'] ?? ''); ?>" id="formAlerta" novalidate>
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_ALERTA'] ?? ''); ?>">
             <div class="mb-3">
                 <label class="form-label">Estado</label>
                 <select class="form-select" id="idEstado" name="idEstado" required>
                 <?php foreach ($estados as $e): ?>
-                    <option value="<?php echo htmlspecialchars($e['ID_ESTADO']); ?>" <?php echo ($e['ID_ESTADO'] == $datos['ID_ESTADO']) ? 'selected' : ''; ?>>
+                    <option value="<?php echo htmlspecialchars($e['ID_ESTADO']?? ''); ?>" <?php echo ($e['ID_ESTADO'] == $datos['ID_ESTADO']) ? 'selected' : ''; ?>>
                 <?php echo htmlspecialchars($e['NOMBRE_ESTADO']); ?>
                      </option>
                 <?php endforeach; ?>
@@ -26,7 +26,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo htmlspecialchars($datos['DESCRIPCION']); ?></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo htmlspecialchars($datos['DESCRIPCION'] ?? ''); ?></textarea>
             </div>
             <button type="submit" class="btn btn-success">Actualizar</button>
             <a href="listar.php" class="btn btn-secondary">Cancelar</a>

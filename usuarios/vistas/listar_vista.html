@@ -17,7 +17,7 @@
         </div>
 
         <?php if (isset($_GET['msg'])): ?>
-            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
+            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg'] ?? ''); ?></div>
         <?php endif; ?>
 
         <table class="table table-striped">
@@ -35,15 +35,15 @@
             <tbody>
                 <?php foreach ($listaUsuarios as $u): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($u['ID_USUARIO']); ?></td>
-                    <td><?php echo htmlspecialchars($u['NOMBRE']); ?></td>
-                    <td><?php echo htmlspecialchars($u['APELLIDO_PATERNO'] . " " . $u['APELLIDO_MATERNO']); ?></td>
-                    <td><?php echo htmlspecialchars($u['CORREO']); ?></td>
-                    <td><?php echo htmlspecialchars($u['NOMBRE_ROL']); ?></td>
-                    <td><?php echo htmlspecialchars($u['NOMBRE_ESTADO']); ?></td>
+                    <td><?php echo htmlspecialchars($u['ID_USUARIO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($u['NOMBRE'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($u['APELLIDO_PATERNO'] ?? '') . " " . htmlspecialchars($u['APELLIDO_MATERNO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($u['CORREO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($u['NOMBRE_ROL'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($u['NOMBRE_ESTADO'] ?? ''); ?></td>
                     <td>
-                        <a href="editar.php?id=<?php echo htmlspecialchars($u['ID_USUARIO']); ?>" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="../procesos/eliminarUsuario.php?id=<?php echo htmlspecialchars($u['ID_USUARIO']); ?>"
+                        <a href="editar.php?id=<?php echo htmlspecialchars($u['ID_USUARIO'] ?? ''); ?>" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="../procesos/eliminarUsuario.php?id=<?php echo htmlspecialchars($u['ID_USUARIO'] ?? ''); ?>"
                            class="btn btn-sm btn-danger"
                            onclick="return confirmarEliminar('¿Eliminar este usuario?')">Eliminar</a>
                     </td>

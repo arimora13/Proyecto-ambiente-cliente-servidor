@@ -11,12 +11,17 @@ if (!isset($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $plagaObj->editar($_POST['id'], $_POST['idCultivo'], $_POST['fecha'], $_POST['descripcion']);
+    $plagaObj->editar(
+        $_POST['id'] ?? '',
+        $_POST['idCultivo'] ?? '',
+        $_POST['fecha'] ?? '',
+        $_POST['descripcion'] ?? ''
+    );
     header("Location: listar.php?msg=editado");
     exit;
 }
 
-$datos = $plagaObj->obtenerPorId($_GET['id']);
+$datos = $plagaObj->obtenerPorId($_GET['id'] ?? '');
 if (!$datos) {
     header("Location: listar.php");
     exit;

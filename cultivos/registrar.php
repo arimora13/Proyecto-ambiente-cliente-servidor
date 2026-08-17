@@ -8,12 +8,12 @@ $cultivoObj = new Cultivo($conexion);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cultivoObj->guardar(
-        $_POST['idHuerta'],
-        $_POST['idTipoCultivo'],
-        $_POST['idGrupo'],
-        $_POST['idEstado'],
-        $_POST['fechaSiembra'],
-        $_POST['cantidad']
+        $_POST['idHuerta'] ?? '',
+        $_POST['idTipoCultivo'] ?? '',
+        $_POST['idGrupo'] ?? '',
+        $_POST['idEstado'] ?? '',
+        $_POST['fechaSiembra'] ?? '',
+        $_POST['cantidad'] ?? ''
     );
     header("Location: listar.php?msg=guardado");
     exit;

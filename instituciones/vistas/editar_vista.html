@@ -54,7 +54,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Teléfono</label>
-                <input type="text" maxlength="9" class="form-control" id="telefono" name="telefono" value="<?php echo htmlspecialchars($datos['TELEFONO']); ?>">
+                <input type="text" maxlength="9" class="form-control" id="telefono" name="telefono" value="<?= htmlspecialchars($institucion['TELEFONO'] ?? ''); ?>">
             </div>
             <button type="submit" class="btn btn-success">Guardar cambios</button>
             <a href="listar.php" class="btn btn-secondary">Cancelar</a>

@@ -12,12 +12,19 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $huertaObj->editar($_POST['id'], $_POST['idInstitucion'], $_POST['idEstado'], $_POST['nombre'], $_POST['areaM2'], $_POST['descripcion']);
+    $huertaObj->editar(
+        $_POST['id'] ?? '',
+        $_POST['idInstitucion'] ?? '',
+        $_POST['idEstado'] ?? '',
+        $_POST['nombre'] ?? '',
+        $_POST['areaM2'] ?? '',
+        $_POST['descripcion'] ?? ''
+    );
     header("Location: listar.php?msg=editado");
     exit;
 }
 
-$datos = $huertaObj->obtenerPorId($_GET['id']);
+$datos = $huertaObj->obtenerPorId($_GET['id'] ?? '');
 if (!$datos) {
     header("Location: listar.php");
     exit;

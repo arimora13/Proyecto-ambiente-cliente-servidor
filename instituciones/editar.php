@@ -12,12 +12,12 @@ if (!isset($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $institucionObj->editar($_POST['id'], $_POST['idDireccion'], $_POST['idProvincia'], $_POST['idCanton'], $_POST['idDistrito'], $_POST['otrasSenas'], $_POST['nombre'], $_POST['telefono']);
+    $institucionObj->editar($_POST['id'] ?? '', $_POST['idDireccion'] ?? '', $_POST['idProvincia'] ?? '', $_POST['idCanton'] ?? '', $_POST['idDistrito'] ?? '', $_POST['otrasSenas'] ?? '', $_POST['nombre'] ?? '', $_POST['telefono'] ?? '');
     header("Location: listar.php?msg=editado");
     exit;
 }
 
-$datos = $institucionObj->obtenerPorId($_GET['id']);
+$datos = $institucionObj->obtenerPorId($_GET['id'] ?? '');
 if (!$datos) {
     header("Location: listar.php");
     exit;

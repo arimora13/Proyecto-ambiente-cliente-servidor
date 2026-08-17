@@ -12,27 +12,27 @@
 <div class="container mt-2">
     <div class="contenedor-modulo" style="max-width:600px;margin:auto;">
         <h4 class="mb-3">Editar reporte</h4>
-        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_REPORTE']); ?>" id="formReporte" novalidate>
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_REPORTE']); ?>">
+        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_REPORTE'] ?? ''); ?>" id="formReporte" novalidate>
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_REPORTE'] ?? ''); ?>">
             <div class="mb-3">
                 <label class="form-label">Huerta</label>
                 <select class="form-select" id="idHuerta" name="idHuerta" required>
                     <?php foreach ($listaHuertas as $h): ?>
-                        <option value="<?php echo htmlspecialchars($h['ID_HUERTA']); ?>" <?php echo (htmlspecialchars($h['ID_HUERTA'])==htmlspecialchars($datos['ID_HUERTA']))?'selected':''; ?>><?php echo htmlspecialchars($h['NOMBRE']); ?></option>
+                        <option value="<?php echo htmlspecialchars($h['ID_HUERTA'] ?? ''); ?>" <?php echo (htmlspecialchars($h['ID_HUERTA'] ?? '')==htmlspecialchars($datos['ID_HUERTA'] ?? ''))?'selected':''; ?>><?php echo htmlspecialchars($h['NOMBRE'] ?? ''); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
                 <label class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo htmlspecialchars($datos['FECHA']); ?>" required>
+                <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo htmlspecialchars($datos['FECHA'] ?? ''); ?>" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Período</label>
-                <input type="text" class="form-control" id="periodo" name="periodo" value="<?php echo htmlspecialchars($datos['PERIODO']); ?>" required>
+                <input type="text" class="form-control" id="periodo" name="periodo" value="<?php echo htmlspecialchars($datos['PERIODO'] ?? ''); ?>" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required><?php echo htmlspecialchars($datos['DESCRIPCION']); ?></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required><?php echo htmlspecialchars($datos['DESCRIPCION'] ?? ''); ?></textarea>
             </div>
             <button type="submit" class="btn btn-success">Actualizar</button>
             <a href="listar.php" class="btn btn-secondary">Cancelar</a>

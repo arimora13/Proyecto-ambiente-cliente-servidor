@@ -17,7 +17,7 @@
         </div>
 
         <?php if (isset($_GET['msg'])): ?>
-            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
+            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg'] ?? ''); ?></div>
         <?php endif; ?>
 
         <table class="table table-striped">
@@ -35,15 +35,15 @@
             <tbody>
                 <?php foreach ($listaGrupos as $g): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($g['ID_GRUPO']); ?></td>
-                    <td><?php echo htmlspecialchars($g['NOMBRE']); ?></td>
-                    <td><?php echo htmlspecialchars($g['GRADO']); ?></td>
-                    <td><?php echo htmlspecialchars($g['SECCION']); ?></td>
-                    <td><?php echo htmlspecialchars($g['ANYO']); ?></td>
-                    <td><?php echo htmlspecialchars($g['NOMBRE_DOCENTE'] . " " . $g['APELLIDO_DOCENTE']); ?></td>
+                    <td><?php echo htmlspecialchars($g['ID_GRUPO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($g['NOMBRE'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($g['GRADO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($g['SECCION'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($g['ANYO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($g['NOMBRE_DOCENTE'] ?? '') . " " . htmlspecialchars($g['APELLIDO_DOCENTE'] ?? ''); ?></td>
                     <td>
-                        <a href="editar.php?id=<?php echo htmlspecialchars($g['ID_GRUPO']); ?>" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="eliminar.php?id=<?php echo htmlspecialchars($g['ID_GRUPO']); ?>"
+                        <a href="editar.php?id=<?php echo htmlspecialchars($g['ID_GRUPO'] ?? ''); ?>" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="eliminar.php?id=<?php echo htmlspecialchars($g['ID_GRUPO'] ?? ''); ?>"
                            class="btn btn-sm btn-danger"
                            onclick="return confirmarEliminar('¿Eliminar este grupo?')">Eliminar</a>
                     </td>

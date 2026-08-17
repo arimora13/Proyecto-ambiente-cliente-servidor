@@ -41,7 +41,7 @@
                 <label class="form-label">Docente responsable</label>
                 <select class="form-select" id="idDocente" name="idDocente" required>
                     <?php foreach ($listaDocentes as $d): ?>
-                        <option value="<?php echo htmlspecialchars($d['ID_USUARIO']); ?>"><?php echo htmlspecialchars($d['NOMBRE'] . " " . $d['APELLIDO_PATERNO']); ?></option>
+                        <option value="<?php echo htmlspecialchars($d['ID_USUARIO'] ?? ''); ?>"><?php echo htmlspecialchars($d['NOMBRE'] ?? '') . " " . htmlspecialchars($d['APELLIDO_PATERNO'] ?? ''); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

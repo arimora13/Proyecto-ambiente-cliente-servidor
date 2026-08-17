@@ -12,12 +12,19 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $grupoObj->editar($_POST['id'], $_POST['idDocente'], $_POST['nombre'], $_POST['grado'], $_POST['seccion'], $_POST['anyo']);
+    $grupoObj->editar(
+        $_POST['id'] ?? '',
+        $_POST['idDocente'] ?? '',
+        $_POST['nombre'] ?? '',
+        $_POST['grado'] ?? '',
+        $_POST['seccion'] ?? '',
+        $_POST['anyo'] ?? ''
+    );
     header("Location: listar.php?msg=editado");
     exit;
 }
 
-$datos = $grupoObj->obtenerPorId($_GET['id']);
+$datos = $grupoObj->obtenerPorId($_GET['id'] ?? '');
 if (!$datos) {
     header("Location: listar.php");
     exit;

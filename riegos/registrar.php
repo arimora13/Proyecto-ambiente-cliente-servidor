@@ -6,10 +6,10 @@ require_once("../clases/Riego.php");
 $riegoObj = new Riego($conexion);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $riegoObj ->guardar($_POST['idCultivo'], 
+      $riegoObj ->guardar($_POST['idCultivo'] ?? '', 
       $_SESSION['id_usuario'], 
-      $_POST['fecha'], 
-      $_POST['descripcion']);
+      $_POST['fecha'] ?? '', 
+      $_POST['descripcion'] ?? '');
 
        header("Location: listar.php?msg=registrado");
        exit; 

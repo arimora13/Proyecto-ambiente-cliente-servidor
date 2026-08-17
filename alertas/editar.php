@@ -17,7 +17,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) { //si no existe entra al if
 $idAlerta = $_GET['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $idEstado = $_POST['idEstado'] ?? null;
+    $idEstado = $_POST['idEstado'] ?? '';
     $descripcion = $_POST['descripcion'] ?? '';
     $idForm = $_POST['id'] ?? $idAlerta;
     

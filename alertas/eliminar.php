@@ -8,9 +8,9 @@ validarRol(["Administrador","Docente"]);
 require_once("../clases/Alerta.php");
 
 //si el id de la alerta existe
-if (isset($_GET['id']) && !empty($_GET['id'])) {
+if (isset($_GET['id']) && !empty($_GET['id']) ) {
     $alertaObj = new Alerta($conexion);
-    $alertaObj->eliminar($_GET['id']);
+    $alertaObj->eliminar($_GET['id'] ?? '');
     //si esta existe se elimina
 }
 

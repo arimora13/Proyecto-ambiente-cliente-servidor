@@ -21,7 +21,7 @@
                 <label class="form-label">Institución</label>
                 <select class="form-select" id="idInstitucion" name="idInstitucion" required>
                     <?php foreach ($listaInstituciones as $i): ?>
-                        <option value="<?php echo htmlspecialchars($i['ID_INSTITUCION']); ?>"><?php echo htmlspecialchars($i['NOMBRE']); ?></option>
+                        <option value="<?php echo htmlspecialchars($i['ID_INSTITUCION'] ?? ''); ?>"><?php echo htmlspecialchars($i['NOMBRE'] ?? ''  ); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -37,7 +37,7 @@
                 <label class="form-label">Estado</label>
                 <select class="form-select" id="idEstado" name="idEstado" required>
                     <?php foreach ($listaEstados as $e): ?>
-                        <option value="<?php echo htmlspecialchars($e['ID_ESTADO']); ?>"><?php echo htmlspecialchars($e['NOMBRE_ESTADO']); ?></option>
+                        <option value="<?php echo htmlspecialchars($e['ID_ESTADO'] ?? ''); ?>"><?php echo htmlspecialchars($e['NOMBRE_ESTADO'] ?? ''); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

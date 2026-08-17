@@ -17,7 +17,7 @@
                 <label class="form-label">Huerta</label>
                 <select class="form-select" id="idHuerta" name="idHuerta" required>
                     <?php foreach ($listaHuertas as $h): ?>
-                        <option value="<?php echo htmlspecialchars($h['ID_HUERTA']); ?>"><?php echo htmlspecialchars($h['NOMBRE']); ?></option>
+                        <option value="<?php echo htmlspecialchars($h['ID_HUERTA'] ?? ''); ?>"><?php echo htmlspecialchars($h['NOMBRE'] ?? ''); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

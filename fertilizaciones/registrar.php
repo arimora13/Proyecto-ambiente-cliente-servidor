@@ -7,7 +7,12 @@ require_once("../clases/Fertilizacion.php");
 $fertilizacionObj = new Fertilizacion($conexion);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $fertilizacionObj->guardar($_POST['idCultivo'], $_SESSION['id_usuario'], $_POST['fecha'], $_POST['descripcion']);
+    $fertilizacionObj->guardar(
+        $_POST['idCultivo'] ?? '',
+        $_SESSION['id_usuario'],
+        $_POST['fecha'] ?? '',
+        $_POST['descripcion'] ?? ''
+    );
     header("Location: listar.php?msg=guardado");
     exit;
 }

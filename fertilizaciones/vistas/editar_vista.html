@@ -12,13 +12,13 @@
 <div class="container mt-2">
     <div class="contenedor-modulo" style="max-width:600px;margin:auto;">
         <h4 class="mb-3">Editar fertilización</h4>
-        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_ACTIVIDAD']); ?>" id="formFertilizacion" novalidate>
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_ACTIVIDAD']); ?>">
+        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_ACTIVIDAD'] ?? ''); ?>" id="formFertilizacion" novalidate>
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_ACTIVIDAD'] ?? ''); ?>">
             <div class="mb-3">
                 <label class="form-label">Cultivo</label>
                 <select class="form-select" id="idCultivo" name="idCultivo" required>
                     <?php foreach ($listaCultivos as $c): ?>
-                        <option value="<?php echo htmlspecialchars($c['ID_CULTIVO']); ?>" <?php echo (htmlspecialchars($c['ID_CULTIVO'])==htmlspecialchars($datos['ID_CULTIVO']))?'selected':''; ?>><?php echo htmlspecialchars($c['NOMBRE_TIPO'] . ' - ' . $c['NOMBRE_HUERTA']) . ' (#' . htmlspecialchars($c['ID_CULTIVO'])    . ')'; ?></option>
+                        <option value="<?php echo htmlspecialchars($c['ID_CULTIVO'] ?? ''); ?>" <?php echo (htmlspecialchars($c['ID_CULTIVO'] ?? '')==htmlspecialchars($datos['ID_CULTIVO'] ?? ''))?'selected':''; ?>><?php echo htmlspecialchars($c['NOMBRE_TIPO'] ?? '') . ' - ' . htmlspecialchars($c['NOMBRE_HUERTA'] ?? '') . ' (#' . htmlspecialchars($c['ID_CULTIVO'] ?? '') . ')'; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -28,7 +28,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo htmlspecialchars($datos['DESCRIPCION']); ?></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo htmlspecialchars($datos['DESCRIPCION'] ?? ''); ?></textarea>
             </div>
             <button type="submit" class="btn btn-success">Actualizar</button>
             <a href="listar.php" class="btn btn-secondary">Cancelar</a>

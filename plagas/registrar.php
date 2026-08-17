@@ -6,7 +6,12 @@ require_once("../clases/Plaga.php");
 $plagaObj = new Plaga($conexion);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $plagaObj->guardar($_POST['idCultivo'], $_SESSION['id_usuario'], $_POST['fecha'], $_POST['descripcion']);
+    $plagaObj->guardar(
+        $_POST['idCultivo'] ?? '',
+        $_SESSION['id_usuario'],
+        $_POST['fecha'] ?? '',
+        $_POST['descripcion'] ?? ''
+    );
     header("Location: listar.php?msg=guardado");
     exit;
 }

@@ -5,13 +5,13 @@ validarRol(["Administrador"]);
 require_once("../clases/Usuario.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id         = $_POST['id'];
-    $idRol      = $_POST['idRol'];
-    $idEstado   = $_POST['idEstado'];
-    $nombre     = trim($_POST['nombre']);
-    $apPaterno  = trim($_POST['apellidoPaterno']);
-    $apMaterno  = trim($_POST['apellidoMaterno']);
-    $correo     = trim($_POST['correo']);
+    $id         = $_POST['id'] ?? '';
+    $idRol      = $_POST['idRol'] ?? '';
+    $idEstado   = $_POST['idEstado'] ?? '';
+    $nombre     = trim($_POST['nombre'] ?? '');
+    $apPaterno  = trim($_POST['apellidoPaterno'] ?? '');
+    $apMaterno  = trim($_POST['apellidoMaterno'] ?? '');
+    $correo     = trim($_POST['correo'] ?? '');
 
     $usuario = new Usuario($conexion);
     $usuario->editar($id, $idRol, $idEstado, $nombre, $apPaterno, $apMaterno, $correo);

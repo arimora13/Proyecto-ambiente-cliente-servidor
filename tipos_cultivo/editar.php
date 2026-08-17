@@ -11,12 +11,12 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $tipoObj->editar($_POST['id'], $_POST['nombre'], $_POST['nombreCientifico'], $_POST['tiempoCosecha'], $_POST['frecuenciaRiego'], $_POST['frecuenciaFertilizacion'], $_POST['observaciones']);
+    $tipoObj->editar($_POST['id'] ?? '', $_POST['nombre'] ?? '', $_POST['nombreCientifico'] ?? '', $_POST['tiempoCosecha'] ?? '', $_POST['frecuenciaRiego'] ?? '', $_POST['frecuenciaFertilizacion'] ?? '', $_POST['observaciones'] ?? '');
     header("Location: listar.php?msg=editado");
     exit;
 }
 
-$datos = $tipoObj->obtenerPorId($_GET['id']);
+$datos = $tipoObj->obtenerPorId($_GET['id'] ?? '');
 if (!$datos) {
     header("Location: listar.php");
     exit;

@@ -10,11 +10,11 @@ $alertaObj = new Alerta($conexion);
 //si el formulario ya fue enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $alertaObj->guardar(
-        $_POST['idCultivo'], 
+        $_POST['idCultivo'] ?? '', 
         $_SESSION['id_usuario'], 
-        $_POST['idTipoActividad'], 
-        $_POST['idEstado'], 
-        $_POST['descripcion']
+        $_POST['idTipoActividad'] ?? '', 
+        $_POST['idEstado'] ?? '', 
+        $_POST['descripcion'] ?? ''
         );
         //guarda la nueva alertar
 

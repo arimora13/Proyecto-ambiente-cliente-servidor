@@ -13,19 +13,19 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cultivoObj->editar(
-        $_POST['id'],
-        $_POST['idHuerta'],
-        $_POST['idTipoCultivo'],
-        $_POST['idGrupo'],
-        $_POST['idEstado'],
-        $_POST['fechaSiembra'],
-        $_POST['cantidad']
+        $_POST['id'] ?? '',
+        $_POST['idHuerta'] ?? '',
+        $_POST['idTipoCultivo'] ?? '',
+        $_POST['idGrupo'] ?? '',
+        $_POST['idEstado'] ?? '',
+        $_POST['fechaSiembra'] ?? '',
+        $_POST['cantidad'] ?? ''
     );
     header("Location: listar.php?msg=editado");
     exit;
 }
 
-$datos = $cultivoObj->obtenerPorId($_GET['id']);
+$datos = $cultivoObj->obtenerPorId($_GET['id'] ?? '');
 if (!$datos) {
     header("Location: listar.php");
     exit;

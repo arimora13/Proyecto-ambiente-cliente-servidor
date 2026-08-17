@@ -17,7 +17,7 @@
         </div>
 
         <?php if (isset($_GET['msg'])): ?>
-            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
+            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg'] ?? ''); ?></div>
         <?php endif; ?>
 
         <table class="table table-striped">
@@ -35,15 +35,15 @@
             <tbody>
                 <?php foreach ($listaHuertas as $h): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($h['ID_HUERTA']); ?></td>
-                    <td><?php echo htmlspecialchars($h['NOMBRE']); ?></td>
-                    <td><?php echo htmlspecialchars($h['NOMBRE_INSTITUCION']); ?></td>
-                    <td><?php echo htmlspecialchars($h['AREA_M2']); ?></td>
-                    <td><?php echo htmlspecialchars($h['DESCRIPCION']); ?></td>
-                    <td><?php echo htmlspecialchars($h['NOMBRE_ESTADO']); ?></td>
+                    <td><?php echo htmlspecialchars($h['ID_HUERTA'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($h['NOMBRE'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($h['NOMBRE_INSTITUCION'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($h['AREA_M2'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($h['DESCRIPCION'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($h['NOMBRE_ESTADO'] ?? ''); ?></td>
                     <td>
-                        <a href="editar.php?id=<?php echo htmlspecialchars($h['ID_HUERTA']); ?>" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="eliminar.php?id=<?php echo htmlspecialchars($h['ID_HUERTA']); ?>"
+                        <a href="editar.php?id=<?php echo htmlspecialchars($h['ID_HUERTA'] ?? ''); ?>" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="eliminar.php?id=<?php echo htmlspecialchars($h['ID_HUERTA'] ?? ''); ?>"
                            class="btn btn-sm btn-danger"
                            onclick="return confirmarEliminar('¿Eliminar esta huerta?')">Eliminar</a>
                     </td>

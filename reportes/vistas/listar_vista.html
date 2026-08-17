@@ -17,7 +17,7 @@
         </div>
 
         <?php if (isset($_GET['msg'])): ?>
-            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
+            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg'] ?? ''); ?></div>
         <?php endif; ?>
 
         <table class="table table-striped">
@@ -27,14 +27,14 @@
             <tbody>
                 <?php foreach ($lista as $r): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($r['ID_REPORTE']); ?></td>
-                    <td><?php echo htmlspecialchars($r['NOMBRE_HUERTA']); ?></td>
-                    <td><?php echo htmlspecialchars($r['FECHA']); ?></td>
-                    <td><?php echo htmlspecialchars($r['PERIODO']); ?></td>
-                    <td><?php echo htmlspecialchars($r['DESCRIPCION']); ?></td>
+                    <td><?php echo htmlspecialchars($r['ID_REPORTE'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($r['NOMBRE_HUERTA'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($r['FECHA'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($r['PERIODO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($r['DESCRIPCION'] ?? ''); ?></td>
                     <td>
-                        <a href="editar.php?id=<?php echo htmlspecialchars($r['ID_REPORTE']); ?>" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="eliminar.php?id=<?php echo htmlspecialchars($r['ID_REPORTE']); ?>" class="btn btn-sm btn-danger"
+                        <a href="editar.php?id=<?php echo htmlspecialchars($r['ID_REPORTE'] ?? ''); ?>" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="eliminar.php?id=<?php echo htmlspecialchars($r['ID_REPORTE'] ?? ''); ?>" class="btn btn-sm btn-danger"
                            onclick="return confirmarEliminar('¿Eliminar este reporte?')">Eliminar</a>
                     </td>
                 </tr>
