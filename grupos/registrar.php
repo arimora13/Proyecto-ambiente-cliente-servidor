@@ -7,7 +7,7 @@ require_once("../clases/GrupoEstudiantil.php");
 $grupoObj = new GrupoEstudiantil($conexion);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $grupoObj->guardar($_POST['idDocente'], $_POST['nombre'], $_POST['grado'], $_POST['seccion'], $_POST['año']);
+    $grupoObj->guardar($_POST['idDocente'], $_POST['nombre'], $_POST['grado'], $_POST['seccion'], $_POST['anyo']);
     header("Location: listar.php?msg=registrado");
     exit;
 }
@@ -15,3 +15,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $listaDocentes = $grupoObj->listarDocentes();
 
 include(__DIR__ . "/vistas/registrar_vista.html");
+?>

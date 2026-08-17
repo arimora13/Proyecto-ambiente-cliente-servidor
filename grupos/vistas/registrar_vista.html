@@ -15,7 +15,7 @@
 
         <?php if (empty($listaDocentes)): ?>
             <div class="alert alert-warning">
-                No hay usuarios con rol <strong>Docente</strong> registrados todavia.
+                No hay usuarios con rol <strong>Docente</strong> registrados todavía
                 Primero crea uno desde <a href="<?php echo BASE_URL; ?>/usuarios/registrar.php">Usuarios</a>.
             </div>
         <?php endif; ?>
@@ -30,18 +30,18 @@
                 <input type="number" min="1" max="11" class="form-control" id="grado" name="grado" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Seccion</label>
+                <label class="form-label">Sección</label>
                 <input type="text" maxlength="5" class="form-control" id="seccion" name="seccion" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Anyo</label>
+                <label class="form-label">Año</label>
                 <input type="text" maxlength="4" class="form-control" id="anyo" name="anyo" placeholder="<?php echo date('Y'); ?>" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Docente responsable</label>
                 <select class="form-select" id="idDocente" name="idDocente" required>
                     <?php foreach ($listaDocentes as $d): ?>
-                        <option value="<?php echo $d['ID_USUARIO']; ?>"><?php echo htmlspecialchars($d['NOMBRE'] . " " . $d['APELLIDO_PATERNO']); ?></option>
+                        <option value="<?php echo htmlspecialchars($d['ID_USUARIO']); ?>"><?php echo htmlspecialchars($d['NOMBRE'] . " " . $d['APELLIDO_PATERNO']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
