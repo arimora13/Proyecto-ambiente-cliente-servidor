@@ -35,10 +35,10 @@ class Institucion {
             $this->conexion->rollBack();
             return false;
         }
-    } // <-- ¡Faltaba esta llave aquí!
+    }
 
     public function editar($id, $idDireccion, $idProvincia, $idCanton, $idDistrito, $otrasSenas, $nombre, $telefono) {
-       try {
+        try {
             $this->conexion->beginTransaction();
 
             $sqlDireccion = "UPDATE DIRECCION
@@ -76,6 +76,7 @@ class Institucion {
 
             $this->conexion->beginTransaction();
 
+            // 1. Limpiar Huertas y sus dependencias (Cultivos, Actividades, Alertas, Reportes)
             $stmtHuertas = $this->conexion->prepare("SELECT ID_HUERTA FROM HUERTA WHERE ID_INSTITUCION = ?");
             $stmtHuertas->execute([$id]);
             $huertas = $stmtHuertas->fetchAll(PDO::FETCH_COLUMN);
@@ -96,10 +97,13 @@ class Institucion {
                 $this->conexion->prepare("DELETE FROM HUERTA WHERE ID_HUERTA = ?")->execute([$idHuerta]);
             }
 
+            // 2. Borrar teléfono (ID_INSTITUCION es PK en la tabla TELEFONO)
             $this->conexion->prepare("DELETE FROM TELEFONO WHERE ID_INSTITUCION = ?")->execute([$id]);
-            
+
+            // 3. Borrar la institución
             $this->conexion->prepare("DELETE FROM INSTITUCION WHERE ID_INSTITUCION = ?")->execute([$id]);
-            
+
+            // 4. Borrar la dirección asociada
             if (!empty($datos['ID_DIRECCION'])) {
                 $this->conexion->prepare("DELETE FROM DIRECCION WHERE ID_DIRECCION = ?")->execute([$datos['ID_DIRECCION']]);
             }
