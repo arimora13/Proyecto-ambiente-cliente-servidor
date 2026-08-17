@@ -26,18 +26,18 @@
                 <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Correo electronico</label>
+                <label class="form-label">Correo electrónico</label>
                 <input type="email" class="form-control" id="correo" name="correo" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Contrasena</label>
+                <label class="form-label">Contraseña</label>
                 <input type="password" class="form-control" id="clave" name="clave" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Rol</label>
                 <select class="form-select" id="idRol" name="idRol" required>
                     <?php foreach ($listaRoles as $r): ?>
-                        <option value="<?php echo $r['ID_ROL']; ?>"><?php echo htmlspecialchars($r['NOMBRE_ROL']); ?></option>
+                        <option value="<?php echo htmlspecialchars($r['ID_ROL']); ?>"><?php echo htmlspecialchars($r['NOMBRE_ROL']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -45,7 +45,7 @@
                 <label class="form-label">Estado</label>
                 <select class="form-select" id="idEstado" name="idEstado" required>
                     <?php foreach ($listaEstados as $e): ?>
-                        <option value="<?php echo $e['ID_ESTADO']; ?>"><?php echo htmlspecialchars($e['NOMBRE_ESTADO']); ?></option>
+                        <option value="<?php echo htmlspecialchars($e['ID_ESTADO']); ?>"><?php echo htmlspecialchars($e['NOMBRE_ESTADO']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
