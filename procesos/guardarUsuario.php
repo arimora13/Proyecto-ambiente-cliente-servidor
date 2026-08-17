@@ -15,10 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $usuario = new Usuario($conexion);
     if ($usuario->guardar($idRol, $idEstado, $nombre, $apPaterno, $apMaterno, $clave, $correo)) {
-        header("Location: ../usuarios/listar.php?msg=guardado");
+       header("Location: ../usuarios/listar.php?msg=guardado");
     } else {
         header("Location: ../usuarios/registrar.php?msg=error");
     }
+    exit;
+} else {
+    header("Location: ../usuarios/listar.php");
     exit;
 }
 ?>
