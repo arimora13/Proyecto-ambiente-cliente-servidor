@@ -7,3 +7,4 @@ $plagaObj = new Plaga($conexion);
 $lista = $plagaObj->listar();
 
 include(__DIR__ . "/vistas/listar_vista.html");
+?>
