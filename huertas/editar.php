@@ -6,7 +6,7 @@ require_once("../clases/Huerta.php");
 
 $huertaObj = new Huerta($conexion);
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: listar.php");
     exit;
 }
