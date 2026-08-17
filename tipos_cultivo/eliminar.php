@@ -1,6 +1,7 @@
 <?php
 require_once("../conexion.php");
 validarSesion();
+validarRol(["Administrador","Docente"]);
 require_once("../clases/TipoCultivo.php");
 
 if (isset($_GET['id']) || !empty($_GET['id'])) {

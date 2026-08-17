@@ -1,6 +1,7 @@
 <?php
 require_once("../conexion.php");
 validarSesion();
+validarRol(["Administrador","Docente"]);
 require_once("../clases/TipoCultivo.php");
 
 $tipoObj = new TipoCultivo($conexion);

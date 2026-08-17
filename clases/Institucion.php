@@ -68,70 +68,96 @@ class Institucion {
     }
 
     public function eliminar($id) {
-        try {
-            $datos = $this->obtenerPorId($id);
-            if (!$datos) {
-                return false;
-            }
-
-            $this->conexion->beginTransaction();
-
-            // 1. Limpiar Grupos Estudiantiles y sus dependencias vinculados a la institución
-            $stmtGrupos = $this->conexion->prepare("SELECT ID_GRUPO FROM GRUPO_ESTUDIANTIL WHERE ID_INSTITUCION = ?");
-            $stmtGrupos->execute([$id]);
-            $grupos = $stmtGrupos->fetchAll(PDO::FETCH_COLUMN);
-
-            foreach ($grupos as $idGrupo) {
-                // Borrar cultivos, actividades y alertas de cada grupo
-                $stmtCultivosG = $this->conexion->prepare("SELECT ID_CULTIVO FROM CULTIVO WHERE ID_GRUPO = ?");
-                $stmtCultivosG->execute([$idGrupo]);
-                $cultivosG = $stmtCultivosG->fetchAll(PDO::FETCH_COLUMN);
-
-                foreach ($cultivosG as $idCultivo) {
-                    $this->conexion->prepare("DELETE FROM ACTIVIDAD WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                    $this->conexion->prepare("DELETE FROM ALERTA WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                    $this->conexion->prepare("DELETE FROM CULTIVO WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                }
-
-                $this->conexion->prepare("DELETE FROM INTEGRANTES_GRUPOS WHERE ID_GRUPO = ?")->execute([$idGrupo]);
-                $this->conexion->prepare("DELETE FROM GRUPO_ESTUDIANTIL WHERE ID_GRUPO = ?")->execute([$idGrupo]);
-            }
-
-            // 2. Limpiar Huertas y sus dependencias vinculadas a la institución
-            $stmtHuertas = $this->conexion->prepare("SELECT ID_HUERTA FROM HUERTA WHERE ID_INSTITUCION = ?");
-            $stmtHuertas->execute([$id]);
-            $huertas = $stmtHuertas->fetchAll(PDO::FETCH_COLUMN);
-
-            foreach ($huertas as $idHuerta) {
-                $this->conexion->prepare("DELETE FROM REPORTE WHERE ID_HUERTA = ?")->execute([$idHuerta]);
-
-                $stmtCultivosH = $this->conexion->prepare("SELECT ID_CULTIVO FROM CULTIVO WHERE ID_HUERTA = ?");
-                $stmtCultivosH->execute([$idHuerta]);
-                $cultivosH = $stmtCultivosH->fetchAll(PDO::FETCH_COLUMN);
-
-                foreach ($cultivosH as $idCultivo) {
-                    $this->conexion->prepare("DELETE FROM ACTIVIDAD WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                    $this->conexion->prepare("DELETE FROM ALERTA WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                    $this->conexion->prepare("DELETE FROM CULTIVO WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                }
-
-                $this->conexion->prepare("DELETE FROM HUERTA WHERE ID_HUERTA = ?")->execute([$idHuerta]);
-            }
-
-            // 3. Borrar teléfono, institución y su dirección
-            $this->conexion->prepare("DELETE FROM TELEFONO WHERE ID_INSTITUCION = ?")->execute([$id]);
-            $this->conexion->prepare("DELETE FROM INSTITUCION WHERE ID_INSTITUCION = ?")->execute([$id]);
-            if (!empty($datos['ID_DIRECCION'])) {
-                $this->conexion->prepare("DELETE FROM DIRECCION WHERE ID_DIRECCION = ?")->execute([$datos['ID_DIRECCION']]);
-            }
-
-            $this->conexion->commit();
-            return true;
-        } catch (Exception $e) {
-            $this->conexion->rollBack();
+    try {
+        $datos = $this->obtenerPorId($id);
+        if (!$datos) {
             return false;
         }
+
+        $this->conexion->beginTransaction();
+
+        // 1. Obtener las huertas de la institución
+        $stmtHuertas = $this->conexion->prepare(
+            "SELECT ID_HUERTA 
+             FROM HUERTA 
+             WHERE ID_INSTITUCION = ?"
+        );
+
+        $stmtHuertas->execute([$id]);
+        $huertas = $stmtHuertas->fetchAll(PDO::FETCH_COLUMN);
+
+        foreach ($huertas as $idHuerta) {
+
+            // Eliminar reportes de la huerta (y todo los relacionado a)
+            $this->conexion->prepare(
+                "DELETE FROM REPORTE WHERE ID_HUERTA = ?"
+            )->execute([$idHuerta]);
+
+            // Obtener cultivos de la huerta
+            $stmtCultivos = $this->conexion->prepare(
+                "SELECT ID_CULTIVO 
+                 FROM CULTIVO 
+                 WHERE ID_HUERTA = ?"
+            );
+
+            $stmtCultivos->execute([$idHuerta]);
+            $cultivos = $stmtCultivos->fetchAll(PDO::FETCH_COLUMN);
+
+            foreach ($cultivos as $idCultivo) {
+
+                // Eliminar actividades del cultivo
+                $this->conexion->prepare(
+                    "DELETE FROM ACTIVIDAD WHERE ID_CULTIVO = ?"
+                )->execute([$idCultivo]);
+
+                // Eliminar alertas del cultivo
+                $this->conexion->prepare(
+                    "DELETE FROM ALERTA WHERE ID_CULTIVO = ?"
+                )->execute([$idCultivo]);
+
+                // Eliminar cultivo
+                $this->conexion->prepare(
+                    "DELETE FROM CULTIVO WHERE ID_CULTIVO = ?"
+                )->execute([$idCultivo]);
+            }
+
+            // Eliminar huerta
+            $this->conexion->prepare(
+                "DELETE FROM HUERTA WHERE ID_HUERTA = ?"
+            )->execute([$idHuerta]);
+        }
+
+        // Eliminar teléfono de la institución
+        $this->conexion->prepare(
+            "DELETE FROM TELEFONO WHERE ID_INSTITUCION = ?"
+        )->execute([$id]);
+
+        // Eliminar institución
+        $this->conexion->prepare(
+            "DELETE FROM INSTITUCION WHERE ID_INSTITUCION = ?"
+        )->execute([$id]);
+
+        // Eliminar dirección
+        if (!empty($datos['ID_DIRECCION'])) {
+            $this->conexion->prepare(
+                "DELETE FROM DIRECCION WHERE ID_DIRECCION = ?"
+            )->execute([$datos['ID_DIRECCION']]);
+        }
+
+        // Confirmar todos los cambios
+        $this->conexion->commit();
+        return true;
+
+    } catch (Exception $e) {
+
+        // Deshacer todos los cambios si algo falla
+        if ($this->conexion->inTransaction()) {
+            $this->conexion->rollBack();
+        }
+
+        return false;
     }
+}
 
     public function listar() {
         $sql = "SELECT I.ID_INSTITUCION, I.NOMBRE,
