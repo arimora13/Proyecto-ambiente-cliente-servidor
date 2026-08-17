@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: menu.php");
         exit;
     } else {
-        $error = "Correo o contrasena incorrectos.";
+        $error = "Correo o contraseña incorrectos.";
     }
 }
 
