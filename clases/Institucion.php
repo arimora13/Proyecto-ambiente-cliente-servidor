@@ -76,28 +76,6 @@ class Institucion {
 
             $this->conexion->beginTransaction();
 
-            // 1. Limpiar Grupos Estudiantiles y sus dependencias vinculados a la institución
-            $stmtGrupos = $this->conexion->prepare("SELECT ID_GRUPO FROM GRUPO_ESTUDIANTIL WHERE ID_INSTITUCION = ?");
-            $stmtGrupos->execute([$id]);
-            $grupos = $stmtGrupos->fetchAll(PDO::FETCH_COLUMN);
-
-            foreach ($grupos as $idGrupo) {
-                // Borrar cultivos, actividades y alertas de cada grupo
-                $stmtCultivosG = $this->conexion->prepare("SELECT ID_CULTIVO FROM CULTIVO WHERE ID_GRUPO = ?");
-                $stmtCultivosG->execute([$idGrupo]);
-                $cultivosG = $stmtCultivosG->fetchAll(PDO::FETCH_COLUMN);
-
-                foreach ($cultivosG as $idCultivo) {
-                    $this->conexion->prepare("DELETE FROM ACTIVIDAD WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                    $this->conexion->prepare("DELETE FROM ALERTA WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                    $this->conexion->prepare("DELETE FROM CULTIVO WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
-                }
-
-                $this->conexion->prepare("DELETE FROM INTEGRANTES_GRUPOS WHERE ID_GRUPO = ?")->execute([$idGrupo]);
-                $this->conexion->prepare("DELETE FROM GRUPO_ESTUDIANTIL WHERE ID_GRUPO = ?")->execute([$idGrupo]);
-            }
-
-            // 2. Limpiar Huertas y sus dependencias vinculadas a la institución
             $stmtHuertas = $this->conexion->prepare("SELECT ID_HUERTA FROM HUERTA WHERE ID_INSTITUCION = ?");
             $stmtHuertas->execute([$id]);
             $huertas = $stmtHuertas->fetchAll(PDO::FETCH_COLUMN);
@@ -118,9 +96,10 @@ class Institucion {
                 $this->conexion->prepare("DELETE FROM HUERTA WHERE ID_HUERTA = ?")->execute([$idHuerta]);
             }
 
-            // 3. Borrar teléfono, institución y su dirección
             $this->conexion->prepare("DELETE FROM TELEFONO WHERE ID_INSTITUCION = ?")->execute([$id]);
+            
             $this->conexion->prepare("DELETE FROM INSTITUCION WHERE ID_INSTITUCION = ?")->execute([$id]);
+            
             if (!empty($datos['ID_DIRECCION'])) {
                 $this->conexion->prepare("DELETE FROM DIRECCION WHERE ID_DIRECCION = ?")->execute([$datos['ID_DIRECCION']]);
             }

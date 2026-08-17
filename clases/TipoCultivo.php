@@ -27,10 +27,31 @@ class TipoCultivo {
 
     // DELETE
     public function eliminar($id) {
-        $sql = "DELETE FROM TIPO_CULTIVO WHERE ID_TIPO_CULTIVO = ?";
-        $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([$id]);
+    try {
+        $this->conexion->beginTransaction();
+
+        $stmtCultivos = $this->conexion->prepare("SELECT ID_CULTIVO FROM CULTIVO WHERE ID_TIPO_CULTIVO = ?");
+        $stmtCultivos->execute([$id]);
+        $cultivos = $stmtCultivos->fetchAll(PDO::FETCH_COLUMN);
+
+        foreach ($cultivos as $idCultivo) {
+            $this->conexion->prepare("DELETE FROM ACTIVIDAD WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
+            $this->conexion->prepare("DELETE FROM ALERTA WHERE ID_CULTIVO = ?")->execute([$idCultivo]);
+        }
+
+        $this->conexion->prepare("DELETE FROM CULTIVO WHERE ID_TIPO_CULTIVO = ?")->execute([$id]);
+
+        $stmtTipo = $this->conexion->prepare("DELETE FROM TIPO_CULTIVO WHERE ID_TIPO_CULTIVO = ?");
+        $resultado = $stmtTipo->execute([$id]);
+
+        $this->conexion->commit();
+        return $resultado;
+
+    } catch (Exception $e) {
+        $this->conexion->rollBack();
+        return false;
     }
+}
 
     // SELECT todos
     public function listar() {
