@@ -9,6 +9,7 @@ if (!isset($_GET['id'])) {
     header("Location: listar.php");
     exit;
 }
+
 $usuarioObj = new Usuario($conexion);
 $datos = $usuarioObj->obtenerPorId($_GET['id']);
 
@@ -17,7 +18,8 @@ if (!$datos) {
     exit;
 }
 
-$listaRoles   = $conexion->query("SELECT ID_ROL, NOMBRE_ROL FROM ROL")->fetchAll(PDO::FETCH_ASSOC);
-$listaEstados = $conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO FROM ESTADO")->fetchAll(PDO::FETCH_ASSOC);
+$listaRoles   = $conexion->query("SELECT ID_ROL, NOMBRE_ROL FROM ROL BY NOMBRE_ROL")->fetchAll(PDO::FETCH_ASSOC);
+$listaEstados = $conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO FROM ESTADO ORDER BY NOMBRE_ESTADO")->fetchAll(PDO::FETCH_ASSOC);
 
 include(__DIR__ . "/vistas/editar_vista.html");
+?>
