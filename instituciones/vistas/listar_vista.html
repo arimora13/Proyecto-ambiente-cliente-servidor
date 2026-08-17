@@ -36,13 +36,13 @@
             <tbody>
                 <?php foreach ($listaInstituciones as $i): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($i['ID_INSTITUCION']); ?></td>
-                    <td><?php echo htmlspecialchars($i['NOMBRE']); ?></td>
-                    <td><?php echo htmlspecialchars($i['NOMBRE_PROVINCIA']); ?></td>
-                    <td><?php echo htmlspecialchars($i['NOMBRE_CANTON']); ?></td>
-                    <td><?php echo htmlspecialchars($i['NOMBRE_DISTRITO']); ?></td>
-                    <td><?php echo htmlspecialchars($i['OTRAS_SENAS']); ?></td>
-                    <td><?php echo htmlspecialchars($i['TELEFONO']); ?></td>
+                    <td><?php echo htmlspecialchars($i['ID_INSTITUCION'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($i['NOMBRE'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($i['NOMBRE_PROVINCIA'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($i['NOMBRE_CANTON'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($i['NOMBRE_DISTRITO'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($i['OTRAS_SENAS'] ?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($i['TELEFONO'] ?? ''); ?></td>
                     <td>
                         <a href="editar.php?id=<?php echo htmlspecialchars($i['ID_INSTITUCION']); ?>" class="btn btn-sm btn-primary">Editar</a>
                         <a href="eliminar.php?id=<?php echo htmlspecialchars($i['ID_INSTITUCION']); ?>"

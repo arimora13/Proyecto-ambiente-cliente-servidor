@@ -27,7 +27,7 @@
             <tbody>
                 <?php foreach ($lista as $a): ?>
                 <tr class="<?php echo ($a['NOMBRE_ESTADO']=='Pendiente') ? 'table-warning' : ''; ?>">
-                    <td><?php echohtmlspecialchars($a['ID_ALERTA']); ?></td>
+                    <td><?php echo htmlspecialchars($a['ID_ALERTA']); ?></td>
                     <td>#<?php echo htmlspecialchars($a['ID_CULTIVO']); ?></td>
                     <td><?php echo htmlspecialchars($a['NOMBRE_ACTIVIDAD']); ?></td>
                     <td><?php echo htmlspecialchars($a['DESCRIPCION']); ?></td>

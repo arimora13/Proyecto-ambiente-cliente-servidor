@@ -37,7 +37,7 @@ if (!$datos) {
 }
 
 //obtiene la lisra de estados
-$listaEstados = $conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO FROM ESTADO")->fetchAll(PDO::FETCH_ASSOC);
+$estados = $conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO FROM ESTADO")->fetchAll(PDO::FETCH_ASSOC);
 //para desplegar el menu del formulario
 
 //carga el formulario con los datos obtenidos
