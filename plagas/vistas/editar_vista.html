@@ -12,21 +12,22 @@
 <div class="container mt-2">
     <div class="contenedor-modulo" style="max-width:600px;margin:auto;">
         <h4 class="mb-3">Editar plaga</h4>
-        <form method="POST" action="editar.php?id=<?php echo $datos['ID_ACTIVIDAD']; ?>" id="formPlaga" novalidate>
-            <input type="hidden" name="id" value="<?php echo $datos['ID_ACTIVIDAD']; ?>">
+        <form method="POST" action="editar.php?id=<?php echo htmlspecialchars($datos['ID_ACTIVIDAD']); ?>" id="formPlaga" novalidate>
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($datos['ID_ACTIVIDAD']); ?>">
             <div class="mb-3">
                 <label class="form-label">Cultivo</label>
                 <select class="form-select" id="idCultivo" name="idCultivo" required>
                     <?php foreach ($listaCultivos as $c): ?>
-                        <option value="<?php echo $c['ID_CULTIVO']; ?>" <?php echo ($c['ID_CULTIVO']==$datos['ID_CULTIVO'])?'selected':''; ?>><?php echo htmlspecialchars($c['NOMBRE_TIPO'] . ' - ' . $c['NOMBRE_HUERTA']) . ' (#' . $c['ID_CULTIVO'] . ')'; ?></option>
-                </select>
+                        <option value="<?php echo htmlspecialchars($c['ID_CULTIVO']); ?>" <?php echo ($c['ID_CULTIVO']==$datos['ID_CULTIVO'])?'selected':''; ?>><?php echo htmlspecialchars($c['NOMBRE_TIPO'] . ' - ' . $c['NOMBRE_HUERTA']) . ' (#' . $c['ID_CULTIVO'] . ')'; ?></option>
+                    <?php endforeach; ?>
+                    </select>
             </div>
             <div class="mb-3">
                 <label class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo $datos['FECHA_ACTIVIDAD']; ?>" required>
+                <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo htmlspecialchars($datos['FECHA_ACTIVIDAD']); ?>" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Descripcion</label>
+                <label class="form-label">Descripción</label>
                 <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo htmlspecialchars($datos['DESCRIPCION']); ?></textarea>
             </div>
             <button type="submit" class="btn btn-success">Actualizar</button>
