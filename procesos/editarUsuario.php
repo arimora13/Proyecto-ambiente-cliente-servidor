@@ -23,5 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     header("Location: ../usuarios/listar.php?msg=editado");
     exit;
+} else {
+    header("Location: ../usuarios/listar.php");
+    exit;
 }
 ?>
