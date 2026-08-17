@@ -7,7 +7,9 @@ require_once("../clases/Huerta.php");
 if (isset($_GET['id'])) {
     $huertaObj = new Huerta($conexion);
     $huertaObj->eliminar($_GET['id']);
-}
-header("Location: listar.php?msg=eliminado");
-exit;
+    header("Location: listar.php?msg=eliminado");
+    exit;
+} else {
+    header("Location: listar.php");
+    exit;
 ?>
