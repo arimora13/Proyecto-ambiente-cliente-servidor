@@ -6,7 +6,11 @@ require_once("../clases/Riego.php");
 if (isset($_GET['id'])) {
     $riegoObj = new Riego($conexion);
     $riegoObj->eliminar($_GET['id']);
+    header("Location: listar.php?msg=eliminado");
+    exit;
+} else {
+    header("Location: listar.php");
+    exit;
 }
-header("Location: listar.php?msg=eliminado");
-exit;
+
 ?>
