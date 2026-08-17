@@ -2,9 +2,9 @@
 // clases/TipoCultivo.php
 class TipoCultivo {
 
-    private $conexion;
+    private PDO $conexion;
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
         $this->conexion = $conexion;
     }
 

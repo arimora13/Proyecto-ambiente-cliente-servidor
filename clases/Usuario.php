@@ -2,9 +2,9 @@
 // clases/Usuario.php
 class Usuario {
 
-    private $conexion;
+    private PDO $conexion;
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
         $this->conexion = $conexion;
     }
 
@@ -69,10 +69,15 @@ class Usuario {
                 WHERE U.CORREO = ? AND U.CONTRASENA = ?";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$correo, md5($clave)]);
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $resultado ? $resultado : false;
-    }
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if ($usuario && password_verify($clave, $usuario['CONTRASENA'])) {
+            unset($usuario['CONTRASENA']); // No retornar el hash en la sesión o datos
+            return $usuario;
+        }
+
+        return false;
+    }
     // Lista simple para combos (select de docentes, por ejemplo)
     public function listarPorRol($nombreRol) {
         $sql = "SELECT U.ID_USUARIO, U.NOMBRE, U.APELLIDO_PATERNO

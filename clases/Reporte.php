@@ -2,9 +2,9 @@
 // clases/Reporte.php
 class Reporte {
 
-    private $conexion;
+    private PDO $conexion;
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
         $this->conexion = $conexion;
     }
 
@@ -53,4 +53,4 @@ class Reporte {
         return $this->conexion->query("SELECT ID_HUERTA, NOMBRE FROM HUERTA")->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>
+

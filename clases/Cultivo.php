@@ -2,9 +2,9 @@
 // clases/Cultivo.php
 class Cultivo {
 
-    private $conexion;
+    private PDO $conexion;
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
         $this->conexion = $conexion;
     }
 
@@ -74,16 +74,16 @@ class Cultivo {
 
     // Combos auxiliares
     public function listarHuertas() {
-        return $this->conexion->query("SELECT ID_HUERTA, NOMBRE FROM HUERTA")->fetchAll(PDO::FETCH_ASSOC);
+        return $this->conexion->query("SELECT ID_HUERTA, NOMBRE FROM HUERTA ORDER BY NOMBRE")->fetchAll(PDO::FETCH_ASSOC);
     }
     public function listarTiposCultivo() {
-        return $this->conexion->query("SELECT ID_TIPO_CULTIVO, NOMBRE FROM TIPO_CULTIVO")->fetchAll(PDO::FETCH_ASSOC);
+        return $this->conexion->query("SELECT ID_TIPO_CULTIVO, NOMBRE FROM TIPO_CULTIVO ORDER BY NOMBRE")->fetchAll(PDO::FETCH_ASSOC);
     }
     public function listarGrupos() {
         return $this->conexion->query("SELECT ID_GRUPO, NOMBRE FROM GRUPO_ESTUDIANTIL")->fetchAll(PDO::FETCH_ASSOC);
     }
     public function listarEstados() {
-        return $this->conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO FROM ESTADO")->fetchAll(PDO::FETCH_ASSOC);
+        return $this->conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO FROM ESTADO ORDER BY NOMBRE_ESTADO")->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>
+

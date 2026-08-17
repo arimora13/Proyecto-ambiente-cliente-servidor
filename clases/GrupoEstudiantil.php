@@ -2,9 +2,9 @@
 // clases/GrupoEstudiantil.php
 class GrupoEstudiantil {
 
-    private $conexion;
+    private PDO $conexion;
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
         $this->conexion = $conexion;
     }
 
@@ -57,8 +57,8 @@ class GrupoEstudiantil {
         $sql = "SELECT U.ID_USUARIO, U.NOMBRE, U.APELLIDO_PATERNO
                 FROM USUARIO U
                 INNER JOIN ROL R ON U.ID_ROL = R.ID_ROL
-                WHERE R.NOMBRE_ROL = 'Docente'";
+                WHERE R.NOMBRE_ROL = 'Docente'
+                ORDER BY U.NOMBRE, U.APELLIDO_PATERNO";
         return $this->conexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>

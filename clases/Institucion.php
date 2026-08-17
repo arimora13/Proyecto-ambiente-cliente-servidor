@@ -2,63 +2,92 @@
 // clases/Institucion.php
 class Institucion {
 
-    private $conexion;
+    private PDO $conexion;
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
         $this->conexion = $conexion;
     }
 
-    public function guardar($idProvincia, $idCanton, $idDistrito, $otrasSenas, $nombre, $telefono) {
-        $sqlDireccion = "INSERT INTO DIRECCION (ID_PROVINCIA, ID_CANTON, ID_DISTRITO, OTRAS_SENAS)
-                         VALUES (?, ?, ?, ?)";
-        $stmt = $this->conexion->prepare($sqlDireccion);
-        $stmt->execute([$idProvincia, $idCanton, $idDistrito, $otrasSenas]);
-        $idDireccion = $this->conexion->lastInsertId();
+   public function guardar($idProvincia, $idCanton, $idDistrito, $otrasSenas, $nombre, $telefono) {
+        try {
+            $this->conexion->beginTransaction();
 
-        $sqlInstitucion = "INSERT INTO INSTITUCION (ID_DIRECCION, NOMBRE) VALUES (?, ?)";
-        $stmt2 = $this->conexion->prepare($sqlInstitucion);
-        $stmt2->execute([$idDireccion, $nombre]);
-        $idInstitucion = $this->conexion->lastInsertId();
+            $sqlDireccion = "INSERT INTO DIRECCION (ID_PROVINCIA, ID_CANTON, ID_DISTRITO, OTRAS_SENAS)
+                             VALUES (?, ?, ?, ?)";
+            $stmt = $this->conexion->prepare($sqlDireccion);
+            $stmt->execute([$idProvincia, $idCanton, $idDistrito, $otrasSenas]);
+            $idDireccion = $this->conexion->lastInsertId();
 
-        if (!empty($telefono)) {
-            $sqlTelefono = "INSERT INTO TELEFONO (ID_INSTITUCION, TELEFONO) VALUES (?, ?)";
-            $stmt3 = $this->conexion->prepare($sqlTelefono);
-            $stmt3->execute([$idInstitucion, $telefono]);
+            $sqlInstitucion = "INSERT INTO INSTITUCION (ID_DIRECCION, NOMBRE) VALUES (?, ?)";
+            $stmt2 = $this->conexion->prepare($sqlInstitucion);
+            $stmt2->execute([$idDireccion, $nombre]);
+            $idInstitucion = $this->conexion->lastInsertId();
+
+            if (!empty($telefono)) {
+                $sqlTelefono = "INSERT INTO TELEFONO (ID_INSTITUCION, TELEFONO) VALUES (?, ?)";
+                $stmt3 = $this->conexion->prepare($sqlTelefono);
+                $stmt3->execute([$idInstitucion, $telefono]);
+            }
+
+            $this->conexion->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conexion->rollBack();
+            return false;
         }
-
-        return true;
     }
 
     public function editar($id, $idDireccion, $idProvincia, $idCanton, $idDistrito, $otrasSenas, $nombre, $telefono) {
-        $sqlDireccion = "UPDATE DIRECCION
-                         SET ID_PROVINCIA = ?, ID_CANTON = ?, ID_DISTRITO = ?, OTRAS_SENAS = ?
-                         WHERE ID_DIRECCION = ?";
-        $stmt = $this->conexion->prepare($sqlDireccion);
-        $stmt->execute([$idProvincia, $idCanton, $idDistrito, $otrasSenas, $idDireccion]);
+        try {
+            $this->conexion->beginTransaction();
 
-        $sqlInstitucion = "UPDATE INSTITUCION SET NOMBRE = ? WHERE ID_INSTITUCION = ?";
-        $stmt2 = $this->conexion->prepare($sqlInstitucion);
-        $stmt2->execute([$nombre, $id]);
+            $sqlDireccion = "UPDATE DIRECCION
+                             SET ID_PROVINCIA = ?, ID_CANTON = ?, ID_DISTRITO = ?, OTRAS_SENAS = ?
+                             WHERE ID_DIRECCION = ?";
+            $stmt = $this->conexion->prepare($sqlDireccion);
+            $stmt->execute([$idProvincia, $idCanton, $idDistrito, $otrasSenas, $idDireccion]);
 
-        $sqlTelefono = "INSERT INTO TELEFONO (ID_INSTITUCION, TELEFONO) VALUES (?, ?)
-                        ON DUPLICATE KEY UPDATE TELEFONO = ?";
-        $stmt3 = $this->conexion->prepare($sqlTelefono);
-        $stmt3->execute([$id, $telefono, $telefono]);
+            $sqlInstitucion = "UPDATE INSTITUCION SET NOMBRE = ? WHERE ID_INSTITUCION = ?";
+            $stmt2 = $this->conexion->prepare($sqlInstitucion);
+            $stmt2->execute([$nombre, $id]);
 
-        return true;
-    }
+            // Eliminar teléfono anterior y reinsertar si se envió un valor
+            $this->conexion->prepare("DELETE FROM TELEFONO WHERE ID_INSTITUCION = ?")->execute([$id]);
+            if (!empty($telefono)) {
+                $sqlTelefono = "INSERT INTO TELEFONO (ID_INSTITUCION, TELEFONO) VALUES (?, ?)";
+                $stmt3 = $this->conexion->prepare($sqlTelefono);
+                $stmt3->execute([$id, $telefono]);
+            }
 
-    public function eliminar($id) {
-        $datos = $this->obtenerPorId($id);
-        if (!$datos) {
+            $this->conexion->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conexion->rollBack();
             return false;
         }
+    }
 
-        $this->conexion->prepare("DELETE FROM TELEFONO WHERE ID_INSTITUCION = ?")->execute([$id]);
-        $this->conexion->prepare("DELETE FROM INSTITUCION WHERE ID_INSTITUCION = ?")->execute([$id]);
-        $this->conexion->prepare("DELETE FROM DIRECCION WHERE ID_DIRECCION = ?")->execute([$datos['ID_DIRECCION']]);
+   public function eliminar($id) {
+        try {
+            $datos = $this->obtenerPorId($id);
+            if (!$datos) {
+                return false;
+            }
 
-        return true;
+            $this->conexion->beginTransaction();
+
+            $this->conexion->prepare("DELETE FROM TELEFONO WHERE ID_INSTITUCION = ?")->execute([$id]);
+            $this->conexion->prepare("DELETE FROM INSTITUCION WHERE ID_INSTITUCION = ?")->execute([$id]);
+            if (!empty($datos['ID_DIRECCION'])) {
+                $this->conexion->prepare("DELETE FROM DIRECCION WHERE ID_DIRECCION = ?")->execute([$datos['ID_DIRECCION']]);
+            }
+
+            $this->conexion->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conexion->rollBack();
+            return false;
+        }
     }
 
     public function listar() {

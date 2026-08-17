@@ -2,9 +2,9 @@
 // clases/Huerta.php
 class Huerta {
 
-    private $conexion;
+    private PDO $conexion;
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
         $this->conexion = $conexion;
     }
 
@@ -55,10 +55,9 @@ class Huerta {
 
     // Combos auxiliares
     public function listarInstituciones() {
-        return $this->conexion->query("SELECT ID_INSTITUCION, NOMBRE FROM INSTITUCION")->fetchAll(PDO::FETCH_ASSOC);
+        return $this->conexion->query("SELECT ID_INSTITUCION, NOMBRE FROM INSTITUCION ORDER BY NOMBRE")->fetchAll(PDO::FETCH_ASSOC);
     }
     public function listarEstados() {
         return $this->conexion->query("SELECT ID_ESTADO, NOMBRE_ESTADO FROM ESTADO")->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>

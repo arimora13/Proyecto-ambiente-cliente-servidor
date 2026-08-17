@@ -5,10 +5,10 @@
 // Esta clase filtra siempre por ese tipo para no inventar tablas nuevas.
 class Plaga {
 
-    private $conexion;
-    private $nombreTipo = 'Control de plagas';
+    private PDO $conexion;
+    private string $nombreTipo = 'Control de plagas';
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
         $this->conexion = $conexion;
     }
 
@@ -23,6 +23,10 @@ class Plaga {
     // CREATE
     public function guardar($idCultivo, $idUsuario, $fecha, $descripcion) {
         $idTipo = $this->obtenerIdTipo();
+        if (!$idTipo) {
+            return false;
+        }
+
         $sql = "INSERT INTO ACTIVIDAD (ID_CULTIVO, ID_USUARIO, ID_TIPO_ACTIVIDAD, FECHA_ACTIVIDAD, DESCRIPCION)
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conexion->prepare($sql);
@@ -68,7 +72,11 @@ class Plaga {
     }
 
     public function listarCultivos() {
-        return $this->conexion->query("SELECT ID_CULTIVO FROM CULTIVO")->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT C.ID_CULTIVO, TC.NOMBRE AS NOMBRE_CULTIVO 
+                FROM CULTIVO C
+                INNER JOIN TIPO_CULTIVO TC ON C.ID_TIPO_CULTIVO = TC.ID_TIPO_CULTIVO
+                ORDER BY C.ID_CULTIVO DESC";
+        return $this->conexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>
+

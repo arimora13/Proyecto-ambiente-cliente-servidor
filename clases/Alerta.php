@@ -2,9 +2,9 @@
 //CLASES/Alerta.php
 
 class Alerta {
-    private $conexion;
+    private PDO $conexion;
 
-    public function __construct($conexion) {
+    public function __construct(PDO $conexion) {
 
         $this->conexion = $conexion;
     
@@ -67,9 +67,9 @@ class Alerta {
                 WHERE E.NOMBRE_ESTADO = 'Pendiente'";
 
         $fila = $this->conexion->query($sql)->fetch(PDO::FETCH_ASSOC);
-        return $fila['TOTAL'];
+        return $fila ? (int)$fila['TOTAL'] : 0;
         //esto gracias a una funcion COUNT y un inner join para el nombre del estado
     }
 }
-?>
+
  
