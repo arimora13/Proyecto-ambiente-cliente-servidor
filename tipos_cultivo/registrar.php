@@ -12,3 +12,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 include(__DIR__ . "/vistas/registrar_vista.html");
+?>
