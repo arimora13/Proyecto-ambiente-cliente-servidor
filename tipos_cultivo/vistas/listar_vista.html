@@ -17,7 +17,7 @@
         </div>
 
         <?php if (isset($_GET['msg'])): ?>
-            <div class="alert alert-info">Operacion realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
+            <div class="alert alert-info">Operación realizada: <?php echo htmlspecialchars($_GET['msg']); ?></div>
         <?php endif; ?>
 
         <table class="table table-striped">
@@ -25,10 +25,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Nombre cientifico</th>
-                    <th>Tiempo cosecha (dias)</th>
+                    <th>Nombre científico</th>
+                    <th>Tiempo cosecha (días)</th>
                     <th>Frec. riego</th>
-                    <th>Frec. fertilizacion</th>
+                    <th>Frec. fertilización</th>
                     <th>Observaciones</th>
                     <th>Acciones</th>
                 </tr>
@@ -36,7 +36,7 @@
             <tbody>
                 <?php foreach ($listaTipos as $t): ?>
                 <tr>
-                    <td><?php echo $t['ID_TIPO_CULTIVO']; ?></td>
+                    <td><?php echo htmlspecialchars($t['ID_TIPO_CULTIVO']); ?></td>
                     <td><?php echo htmlspecialchars($t['NOMBRE']); ?></td>
                     <td><em><?php echo htmlspecialchars($t['NOMBRE_CIENTIFICO']); ?></em></td>
                     <td><?php echo htmlspecialchars($t['TIEMPO_COSECHA']); ?></td>
@@ -44,8 +44,8 @@
                     <td><?php echo htmlspecialchars($t['FRECUENCIA_FERTILIZACION']); ?></td>
                     <td><?php echo htmlspecialchars($t['OBSERVACIONES']); ?></td>
                     <td>
-                        <a href="editar.php?id=<?php echo $t['ID_TIPO_CULTIVO']; ?>" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="eliminar.php?id=<?php echo $t['ID_TIPO_CULTIVO']; ?>"
+                        <a href="editar.php?id=<?php echo htmlspecialchars($t['ID_TIPO_CULTIVO']); ?>" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="eliminar.php?id=<?php echo htmlspecialchars($t['ID_TIPO_CULTIVO']); ?>"
                            class="btn btn-sm btn-danger"
                            onclick="return confirmarEliminar('¿Eliminar este tipo de cultivo?')">Eliminar</a>
                     </td>
