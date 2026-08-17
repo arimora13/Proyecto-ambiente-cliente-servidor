@@ -5,7 +5,7 @@ require_once("../clases/Riego.php");
 
 $riegoObj = new Riego($conexion);
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: listar.php");
     exit;
 }
@@ -17,11 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        $_POST['idCultivo'], 
        $_POST['fecha'], 
        $_POST['descripcion']);
-
        header ("Location: listar.php?msg=editado");
-
        exit; 
-
 }
 
 $datos = $riegoObj ->obtenerPorId($_GET['id']);
