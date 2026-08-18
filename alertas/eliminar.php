@@ -17,5 +17,4 @@ if (isset($_GET['id']) && !empty($_GET['id']) ) {
 //se muestra un mensaje de eliminacion
 header("Location: listar.php?msg=eliminada");
 exit;
-
 ?>
