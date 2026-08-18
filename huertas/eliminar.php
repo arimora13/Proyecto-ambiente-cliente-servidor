@@ -9,8 +9,9 @@ if (isset($_GET['id'])) {
     $huertaObj->eliminar($_GET['id'] ?? '');
     header("Location: listar.php?msg=eliminado");
     exit;
-} else {
-    header("Location: listar.php");
+
+    } else {
+        header("Location: listar.php");
     exit;
 }
 ?>
