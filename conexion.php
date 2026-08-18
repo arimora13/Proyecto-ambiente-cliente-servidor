@@ -38,6 +38,6 @@ function validarRol($rolesPermitidos) {
     if (!in_array($_SESSION['nombre_rol'], $rolesPermitidos)) {
         echo "<script>alert('No tiene permisos para acceder a este modulo.'); window.location='" . BASE_URL . "/menu.php';</script>";
         exit;
-    }
+     }
 }
-?>
+?>    
